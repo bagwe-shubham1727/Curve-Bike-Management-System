@@ -202,7 +202,7 @@ COMMENT ON COLUMN DOCKS.Employee_ID IS 'Foreign Key from EMPLOYEE';
 CREATE TABLE Accessory (
     Item_ID NUMBER NOT NULL PRIMARY KEY, -- Unique identifier for each accessory
     Item_Name VARCHAR2(20) NOT NULL, -- Name of the accessory
-    Item_Cost NUMBER(10, 2) DEFAULT 0 NOT NULL -- Cost of the accessory with two decimal places
+    Item_Cost NUMBER(10, 2) DEFAULT 0 NOT NULL CHECK (Item_Cost >= 0) -- Cost of the accessory with two decimal places
 );
 
 COMMENT ON COLUMN Accessory.Item_ID IS 'Primary Key for Accessory';
