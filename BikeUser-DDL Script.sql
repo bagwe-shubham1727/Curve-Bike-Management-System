@@ -295,6 +295,12 @@ CREATE TABLE Rental (
     CONSTRAINT FK_Transaction_ID FOREIGN KEY (Transaction_ID)
         REFERENCES Payment_Details(Transaction_ID),
         
+    CONSTRAINT FK_Start_Dock FOREIGN KEY (Start_Dock_ID)
+        REFERENCES Docks(Dock_ID),
+
+    CONSTRAINT FK_End_Dock FOREIGN KEY (End_Dock_ID)
+        REFERENCES Docks(Dock_ID),
+        
     CONSTRAINT CHK_StartEndDateTime CHECK (Start_Date_Time <= End_Date_Time)    
 );
 
