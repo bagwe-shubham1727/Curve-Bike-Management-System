@@ -90,7 +90,7 @@ END;
 
 -- Customer Table
 CREATE TABLE Customer (
-    Customer_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,-- Primary Key for Customer
+    Customer_ID NUMBER NOT NULL PRIMARY KEY,-- Primary Key for Customer
     First_Name VARCHAR2(50) NOT NULL, --First Name of Customer
     Last_Name VARCHAR2(50) NOT NULL, --Last Name of Customer
     Email VARCHAR2(100) UNIQUE NOT NULL CHECK (REGEXP_LIKE(Email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')),  -- Each customer has a unique email
@@ -118,8 +118,8 @@ COMMENT ON COLUMN Customer.ZIP IS '5-digit ZIP code of Customer';
 
 -- Payment_Details Table
 CREATE TABLE Payment_Details (
-    Transaction_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Payment Details
-    Customer_ID RAW(16) NOT NULL,     -- Foreign Key from Customer
+    Transaction_ID NUMBER NOT NULL PRIMARY KEY,  -- Primary Key for Payment Details
+    Customer_ID NUMBER NOT NULL,     -- Foreign Key from Customer
     Date_Time Date NOT NULL,     -- Date and time of the Transaction
     Rent_Duration Number (5,2) NOT NULL,     -- Duration of rent (e.g., in hours or days)
     Payment_Method VARCHAR2(25) NOT NULL,    -- e.g., 'Credit Card', 'Wallet', etc.
@@ -137,7 +137,7 @@ COMMENT ON COLUMN Payment_Details.Payment_Method IS 'e.g., ''Credit Card'', ''Wa
 
 -- Bike_Model Table
 CREATE TABLE Bike_Model (
-    Model_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Bike_Model
+    Model_ID NUMBER NOT NULL PRIMARY KEY,  -- Primary Key for Bike_Model
     Bike_Brand_Name VARCHAR2(50) NOT NULL, -- Bike's brand name
     Bike_Model_Name VARCHAR2(50) NOT NULL -- Bike's model name
 );
@@ -148,7 +148,7 @@ COMMENT ON COLUMN Bike_Model.Bike_Model_Name IS 'Bikes model name';
 
 -- Employee Table
 CREATE TABLE Employee (
-    Employee_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Employee
+    Employee_ID NUMBER NOT NULL PRIMARY KEY,  -- Primary Key for Employee
     First_Name VARCHAR2(50) NOT NULL, -- First name of Employee
     Last_Name VARCHAR2(50) NOT NULL, -- Last Name of Employee
     Email VARCHAR2(100) UNIQUE NOT NULL CHECK (REGEXP_LIKE(Email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')), -- Each Employee has a unique email
@@ -179,12 +179,12 @@ COMMENT ON COLUMN Employee.Designation IS 'Job title or designation of the emplo
 
 -- Docks Table
 CREATE TABLE DOCKS (
-    Dock_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY, -- Primary Key for DOCKS
+    Dock_ID NUMBER NOT NULL PRIMARY KEY, -- Primary Key for DOCKS
     Dock_Name VARCHAR2(50) NOT NULL, -- Dock name
     Dock_Location VARCHAR2(50) NOT NULL, -- Location name
     Bike_Capacity NUMBER NOT NULL CHECK (Bike_Capacity >= 0), -- Number of bikes capacity
     Bike_Available NUMBER NOT NULL CHECK (Bike_Available >= 0), -- Available bikes at the dock
-    Employee_ID RAW(16) NOT NULL, -- Foreign Key from employee
+    Employee_ID NUMBER NOT NULL, -- Foreign Key from employee
     
     CONSTRAINT FK_Employee_ID FOREIGN KEY (Employee_ID)
         REFERENCES Employee(Employee_ID) -- Adjust column name as per EMPLOYEE table
@@ -200,7 +200,7 @@ COMMENT ON COLUMN DOCKS.Employee_ID IS 'Foreign Key from EMPLOYEE';
 
 -- Accessory Table
 CREATE TABLE Accessory (
-    Item_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY, -- Unique identifier for each accessory
+    Item_ID NUMBER NOT NULL PRIMARY KEY, -- Unique identifier for each accessory
     Item_Name VARCHAR2(20) NOT NULL, -- Name of the accessory
     Item_Cost NUMBER(10, 2) DEFAULT 0 NOT NULL -- Cost of the accessory with two decimal places
 );
@@ -212,11 +212,11 @@ COMMENT ON COLUMN Accessory.Item_Cost IS 'Cost of the Accessory (max 10 digits, 
 
 -- Bike Table 
 CREATE TABLE Bike (
-    Bike_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY, -- Unique identifier for each bike
+    Bike_ID NUMBER NOT NULL PRIMARY KEY, -- Unique identifier for each bike
     Current_Location VARCHAR2(50), -- Current location of the bike
     Rental_Status CHAR(1) DEFAULT 'N' NOT NULL CHECK (Rental_Status IN ('Y', 'N')),  -- 'Y' = Rented, 'N' = Available
-    Dock_ID RAW(16) NOT NULL, -- Foreign key to Docks table
-    Model_ID RAW(16) NOT NULL,  -- Foreign key to Bike_Model table
+    Dock_ID NUMBER NOT NULL, -- Foreign key to Docks table
+    Model_ID NUMBER NOT NULL,  -- Foreign key to Bike_Model table
 
 
     CONSTRAINT FK_Dock_ID FOREIGN KEY (Dock_ID)
@@ -235,12 +235,12 @@ COMMENT ON COLUMN Bike.Model_ID IS 'Foreign key referencing Bike_Model';
 
 -- Maintenance Table
 CREATE TABLE Maintenance (
-    Maintenance_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY, -- Primary Key for Maintenance
+    Maintenance_ID NUMBER NOT NULL PRIMARY KEY, -- Primary Key for Maintenance
     Date_Time Date NOT NULL,  -- Date and time when the maintenance or repair activity occurred
     Maintenance_Description VARCHAR2(500), -- Detailed description of the maintenance or repair performed
     Repair_Cost NUMBER(10, 2) NOT NULL CHECK (Repair_Cost >= 0), -- Total cost incurred for the maintenance service
-    Bike_ID RAW(16) NOT NULL, -- Foreign Key from Bike
-    Employee_ID RAW(16) NOT NULL, -- Foreign key from employee
+    Bike_ID NUMBER NOT NULL, -- Foreign Key from Bike
+    Employee_ID NUMBER NOT NULL, -- Foreign key from employee
     
     CONSTRAINT FK_Maintenance_Bike FOREIGN KEY (Bike_ID)
         REFERENCES Bike (Bike_ID),
@@ -258,8 +258,8 @@ COMMENT ON COLUMN Maintenance.Employee_ID IS 'Foreign Key referencing the employ
 
 -- Bike Accessory Table
 CREATE TABLE Bike_Accessory (
-    Accessory_Item_ID RAW(16) NOT NULL, -- Foreign key to Accessory(Item_ID)
-    Bike_ID RAW(16) NOT NULL, -- Foreign key to Bike(Bike_ID)
+    Accessory_Item_ID NUMBER NOT NULL, -- Foreign key to Accessory(Item_ID)
+    Bike_ID NUMBER NOT NULL, -- Foreign key to Bike(Bike_ID)
 
     CONSTRAINT Bike_ID_FK FOREIGN KEY (Bike_ID)
         REFERENCES Bike(Bike_ID),
@@ -276,12 +276,12 @@ COMMENT ON COLUMN Bike_Accessory.Bike_ID IS 'Foreign key referencing Bike table'
 
 --Rental Table
 CREATE TABLE Rental (
-    Rental_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Rental
-    Customer_ID RAW(16) NOT NULL,  --Foreign Key from Customer Table
-    Bike_ID RAW(16) NOT NULL,  --Foreign Key from Bike Table
-    Transaction_ID RAW(16) NOT NULL,  --Foreign Key from Payment_Details Table
-    Start_Dock_ID RAW(16) NOT NULL,  --Start Dock ID
-    End_Dock_ID RAW(16) NOT NULL,  --End Dock ID
+    Rental_ID NUMBER NOT NULL PRIMARY KEY,  -- Primary Key for Rental
+    Customer_ID NUMBER NOT NULL,  --Foreign Key from Customer Table
+    Bike_ID NUMBER NOT NULL,  --Foreign Key from Bike Table
+    Transaction_ID NUMBER NOT NULL,  --Foreign Key from Payment_Details Table
+    Start_Dock_ID NUMBER NOT NULL,  --Start Dock ID
+    End_Dock_ID NUMBER NOT NULL,  --End Dock ID
     Start_Date_Time DATE NOT NULL,  --Start Date and Time of rental
     End_Date_Time DATE NOT NULL,    --End Date and Time of rental
     Rental_Time NUMBER DEFAULT 0 NOT NULL,    --Rental time which is set using below function and trigger
