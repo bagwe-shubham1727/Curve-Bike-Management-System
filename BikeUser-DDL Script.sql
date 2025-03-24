@@ -34,6 +34,15 @@ EXCEPTION
 END;
 /
 
+-- Drop DOCKS table if it exists
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE DOCKS CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL; -- Ignore errors if table does not exist
+END;
+/
+
 -- Customer Table
 CREATE TABLE Customer (
     Customer_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,     -- Primary Key for Customer
@@ -121,3 +130,21 @@ COMMENT ON COLUMN Employee.State_Code IS '2-letter state code';
 COMMENT ON COLUMN Employee.ZIP IS '5-digit ZIP code of the employee';
 COMMENT ON COLUMN Employee.Gender IS 'Gender of the employee. Can be Male, Female, or Transgender';
 COMMENT ON COLUMN Employee.Designation IS 'Job title or designation of the employee';
+
+
+CREATE TABLE DOCKS (
+    Dock_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for DOCKS
+    Dock_Name VARCHAR2(50) NOT NULL,                          -- Dock name
+    Location VARCHAR2(50) NOT NULL,                           -- Location name
+    Bike_Capacity INTEGER DEFAULT 0 NOT NULL,                                    -- Number of bikes capacity
+    Bikes_Available INTEGER DEFAULT 0 NOT NULL,                                  -- Available bikes at the dock
+    Employee_ID RAW(16) NOT NULL,                             -- Foreign Key from EMPLOYEE
+    CONSTRAINT DOCKS_Employee_FK FOREIGN KEY (Employee_ID)
+        REFERENCES Employee(Employee_ID)                      -- Adjust column name as per EMPLOYEE table
+);
+COMMENT ON COLUMN DOCKS.Dock_ID IS 'Primary key for DOCKS';
+COMMENT ON COLUMN DOCKS.Dock_Name IS 'Dock name';
+COMMENT ON COLUMN DOCKS.Location IS 'Location name';
+COMMENT ON COLUMN DOCKS.Bike_Capacity IS 'Number of bikes capacity';
+COMMENT ON COLUMN DOCKS.Bikes_Available IS 'Available bikes at the dock';
+COMMENT ON COLUMN DOCKS.Employee_ID IS 'Foreign Key from EMPLOYEE';
