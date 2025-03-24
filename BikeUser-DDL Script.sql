@@ -25,6 +25,15 @@ EXCEPTION
 END;
 /
 
+-- Drop Employee table if it exists
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE Employee CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL; -- Ignore errors if table does not exist
+END;
+/
+
 -- Customer Table
 CREATE TABLE Customer (
     Customer_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,     -- Primary Key for Customer
@@ -72,7 +81,6 @@ COMMENT ON COLUMN Payment_Details.Rent_Duration IS 'Duration of rent (e.g., in h
 COMMENT ON COLUMN Payment_Details.Payment_Method IS 'e.g., ''Credit Card'', ''Wallet'', etc.';
 
 
-
 -- Bike_Model Table
 CREATE TABLE Bike_Model (
     Model_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Bike_Model
@@ -82,3 +90,34 @@ CREATE TABLE Bike_Model (
 COMMENT ON COLUMN Bike_Model.Model_ID IS 'Primary Key for Bike_Model';
 COMMENT ON COLUMN Bike_Model.Bike_Brand_Name IS 'Bikes brand name';
 COMMENT ON COLUMN Bike_Model.Bike_Model_Name IS 'Bikes model name';
+
+
+-- Employee Table
+CREATE TABLE Employee (
+    Employee_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Employee
+    First_Name VARCHAR2(50) NOT NULL, -- First name of Employee
+    Last_Name VARCHAR2(50) NOT NULL, -- Last Name of Employee
+    Email VARCHAR2(100) UNIQUE NOT NULL,  -- Each Employee has a unique email
+    Phone VARCHAR2(15) NOT NULL CHECK (REGEXP_LIKE(Phone, '^[0-9]{10,15}$')),  -- Valid phone numbers
+    Street_Address VARCHAR2(100) NOT NULL, -- Street Address of Employee
+    House_Number VARCHAR2(10), -- house Number of Employee
+    City VARCHAR2(50) NOT NULL, -- City of Employee
+    State_Code CHAR(2)NOT NULL, -- State Code of Employee
+    ZIP VARCHAR2(10) NOT NULL CHECK (LENGTH(ZIP) = 5), -- Zip Code of Employee with limit 5
+    Gender VARCHAR2(11), -- Gender of Employee
+    Designation VARCHAR2(50) NOT NULL -- Designation of Employee
+);
+
+
+COMMENT ON COLUMN Employee.Employee_ID IS 'Primary Key for employee';
+COMMENT ON COLUMN Employee.First_Name IS 'First name of the employee';
+COMMENT ON COLUMN Employee.Last_Name IS 'Last name of the employee';
+COMMENT ON COLUMN Employee.Email IS 'Unique email address of the employee';
+COMMENT ON COLUMN Employee.Phone IS 'Phone number (10-15 digits) of the employee';
+COMMENT ON COLUMN Employee.Street_Address IS 'Street address of the employee';
+COMMENT ON COLUMN Employee.House_Number IS 'House Number of employee';
+COMMENT ON COLUMN Employee.City IS 'City of employee';
+COMMENT ON COLUMN Employee.State_Code IS '2-letter state code';
+COMMENT ON COLUMN Employee.ZIP IS '5-digit ZIP code of the employee';
+COMMENT ON COLUMN Employee.Gender IS 'Gender of the employee. Can be Male, Female, or Transgender';
+COMMENT ON COLUMN Employee.Designation IS 'Job title or designation of the employee';
