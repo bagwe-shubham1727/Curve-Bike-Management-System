@@ -186,3 +186,30 @@ SELECT * FROM Accessory;
 
 COMMIT;
 
+
+--Inserting data into DOCKS table
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (801, 'Boston Station Dock', 'Boston', 10, 8,101);
+
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (802, 'Back Bay Dock', 'Boston', 15, 12,103);
+
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (803, 'South Boston Dock', 'Boston', 20, 18,105);
+
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (804, 'North End Dock', 'Boston', 10, 9,102);
+
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (805, 'Fenway Dock', 'Boston', 15, 11,107);
+
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (806, 'Seaport Dock', 'Boston', 20, 16,104);
+
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (807, 'Beacon Hill Dock', 'Boston', 10, 8,108);
+
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (808, 'Harborfront Dock', 'Boston', 15, 13,106);
+
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (809, 'Cambridge Dock', 'Boston', 20, 19,109);
+
+INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (810, 'Charlestown Dock', 'Boston', 10, 7,110);
+
+--View the result
+SELECT * FROM DOCKS;
+
+COMMIT;
+
