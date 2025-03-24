@@ -93,7 +93,7 @@ CREATE TABLE Customer (
     Customer_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,-- Primary Key for Customer
     First_Name VARCHAR2(50) NOT NULL, --First Name of Customer
     Last_Name VARCHAR2(50) NOT NULL, --Last Name of Customer
-    Email VARCHAR2(100) UNIQUE NOT NULL,  -- Each customer has a unique email
+    Email VARCHAR2(100) UNIQUE NOT NULL CHECK (REGEXP_LIKE(Email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')),  -- Each customer has a unique email
     Cust_Password RAW(256) DEFAULT NULL, --Password of Customer
     Phone VARCHAR2(15) NOT NULL CHECK (REGEXP_LIKE(Phone, '^[0-9]{10,15}$')),-- Valid phone numbers
     Street_Address VARCHAR2(100) NOT NULL, --Street Address of Customer
@@ -151,14 +151,14 @@ CREATE TABLE Employee (
     Employee_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Employee
     First_Name VARCHAR2(50) NOT NULL, -- First name of Employee
     Last_Name VARCHAR2(50) NOT NULL, -- Last Name of Employee
-    Email VARCHAR2(100) UNIQUE NOT NULL,  -- Each Employee has a unique email
+    Email VARCHAR2(100) UNIQUE NOT NULL CHECK (REGEXP_LIKE(Email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')), -- Each Employee has a unique email
     Phone VARCHAR2(15) NOT NULL CHECK (REGEXP_LIKE(Phone, '^[0-9]{10,15}$')),  -- Valid phone numbers
     Street_Address VARCHAR2(100) NOT NULL, -- Street Address of Employee
     House_Number VARCHAR2(10), -- house Number of Employee
     City VARCHAR2(50) NOT NULL, -- City of Employee
     State_Code CHAR(2)NOT NULL, -- State Code of Employee
     ZIP VARCHAR2(10) NOT NULL CHECK (LENGTH(ZIP) = 5), -- Zip Code of Employee with limit 5
-    Gender VARCHAR2(11), -- Gender of Employee
+    Gender VARCHAR2(11) CHECK (Gender IN ('Male', 'Female', 'Transgender')), -- Gender of Employee
     Designation VARCHAR2(50) NOT NULL -- Designation of Employee
 );
 
@@ -179,28 +179,30 @@ COMMENT ON COLUMN Employee.Designation IS 'Job title or designation of the emplo
 
 -- Docks Table
 CREATE TABLE DOCKS (
-    Dock_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for DOCKS
-    Dock_Name VARCHAR2(50) NOT NULL,                          -- Dock name
-    Location VARCHAR2(50) NOT NULL,                           -- Location name
-    Bike_Capacity INTEGER DEFAULT 0 NOT NULL,                 -- Number of bikes capacity
-    Bikes_Available INTEGER DEFAULT 0 NOT NULL,               -- Available bikes at the dock
-    Employee_ID RAW(16) NOT NULL,                             -- Foreign Key from EMPLOYEE
-    CONSTRAINT DOCKS_Employee_FK FOREIGN KEY (Employee_ID)
-        REFERENCES Employee(Employee_ID)                      -- Adjust column name as per EMPLOYEE table
+    Dock_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY, -- Primary Key for DOCKS
+    Dock_Name VARCHAR2(50) NOT NULL, -- Dock name
+    Dock_Location VARCHAR2(50) NOT NULL, -- Location name
+    Bike_Capacity NUMBER NOT NULL CHECK (Bike_Capacity >= 0), -- Number of bikes capacity
+    Bike_Available NUMBER NOT NULL CHECK (Bike_Available >= 0), -- Available bikes at the dock
+    Employee_ID RAW(16) NOT NULL, -- Foreign Key from employee
+    
+    CONSTRAINT FK_Employee_ID FOREIGN KEY (Employee_ID)
+        REFERENCES Employee(Employee_ID) -- Adjust column name as per EMPLOYEE table
 );
+
 COMMENT ON COLUMN DOCKS.Dock_ID IS 'Primary key for DOCKS';
 COMMENT ON COLUMN DOCKS.Dock_Name IS 'Dock name';
-COMMENT ON COLUMN DOCKS.Location IS 'Location name';
+COMMENT ON COLUMN DOCKS.Dock_Location IS 'Location name';
 COMMENT ON COLUMN DOCKS.Bike_Capacity IS 'Number of bikes capacity';
-COMMENT ON COLUMN DOCKS.Bikes_Available IS 'Available bikes at the dock';
+COMMENT ON COLUMN DOCKS.Bike_Available IS 'Available bikes at the dock';
 COMMENT ON COLUMN DOCKS.Employee_ID IS 'Foreign Key from EMPLOYEE';
 
 
 -- Accessory Table
 CREATE TABLE Accessory (
-    Item_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,   -- Unique identifier for each accessory
-    Item_Name VARCHAR2(20) NOT NULL,                           -- Name of the accessory
-    Item_Cost NUMBER(10, 2) DEFAULT 0 NOT NULL                 -- Cost of the accessory with two decimal places
+    Item_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY, -- Unique identifier for each accessory
+    Item_Name VARCHAR2(20) NOT NULL, -- Name of the accessory
+    Item_Cost NUMBER(10, 2) DEFAULT 0 NOT NULL -- Cost of the accessory with two decimal places
 );
 
 COMMENT ON COLUMN Accessory.Item_ID IS 'Primary Key for Accessory';
@@ -210,11 +212,11 @@ COMMENT ON COLUMN Accessory.Item_Cost IS 'Cost of the Accessory (max 10 digits, 
 
 -- Bike Table 
 CREATE TABLE Bike (
-    Bike_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,         -- Unique identifier for each bike
-    Current_Location VARCHAR2(50),                                   -- Current location of the bike
-    Rental_Status CHAR(1) DEFAULT 'N' NOT NULL,                      -- Rental status (e.g., Y/N)
-    Dock_ID RAW(16) NOT NULL,                                        -- Foreign key to Docks table
-    Model_ID RAW(16) NOT NULL,                                       -- Foreign key to Bike_Model table
+    Bike_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY, -- Unique identifier for each bike
+    Current_Location VARCHAR2(50), -- Current location of the bike
+    Rental_Status CHAR(1) DEFAULT 'N' NOT NULL CHECK (Rental_Status IN ('Y', 'N')),  -- 'Y' = Rented, 'N' = Available
+    Dock_ID RAW(16) NOT NULL, -- Foreign key to Docks table
+    Model_ID RAW(16) NOT NULL,  -- Foreign key to Bike_Model table
 
 
     CONSTRAINT FK_Dock_ID FOREIGN KEY (Dock_ID)
@@ -233,19 +235,17 @@ COMMENT ON COLUMN Bike.Model_ID IS 'Foreign key referencing Bike_Model';
 
 -- Maintenance Table
 CREATE TABLE Maintenance (
-    Maintenance_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Maintenance
-    Date_Time Date NOT NULL,     -- Date and time when the maintenance or repair activity occurred
+    Maintenance_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY, -- Primary Key for Maintenance
+    Date_Time Date NOT NULL,  -- Date and time when the maintenance or repair activity occurred
     Maintenance_Description VARCHAR2(500), -- Detailed description of the maintenance or repair performed
-    Repair_Cost NUMBER(10, 2) NOT NULL, -- Total cost incurred for the maintenance service
+    Repair_Cost NUMBER(10, 2) NOT NULL CHECK (Repair_Cost >= 0), -- Total cost incurred for the maintenance service
     Bike_ID RAW(16) NOT NULL, -- Foreign Key from Bike
     Employee_ID RAW(16) NOT NULL, -- Foreign key from employee
     
-    
-    
-    CONSTRAINT FK_Bike_ID FOREIGN KEY (Bike_ID)
+    CONSTRAINT FK_Maintenance_Bike FOREIGN KEY (Bike_ID)
         REFERENCES Bike (Bike_ID),
         
-    CONSTRAINT FK_Employee_ID FOREIGN KEY (Employee_ID)
+    CONSTRAINT FK_Maintenance_Employee FOREIGN KEY (Employee_ID)
         REFERENCES Employee (Employee_ID)
 );
 
@@ -258,8 +258,8 @@ COMMENT ON COLUMN Maintenance.Employee_ID IS 'Foreign Key referencing the employ
 
 -- Bike Accessory Table
 CREATE TABLE Bike_Accessory (
-    Accessory_Item_ID RAW(16) NOT NULL,     -- Foreign key to Accessory(Item_ID)
-    Bike_ID RAW(16) NOT NULL,               -- Foreign key to Bike(Bike_ID)
+    Accessory_Item_ID RAW(16) NOT NULL, -- Foreign key to Accessory(Item_ID)
+    Bike_ID RAW(16) NOT NULL, -- Foreign key to Bike(Bike_ID)
 
     CONSTRAINT Bike_ID_FK FOREIGN KEY (Bike_ID)
         REFERENCES Bike(Bike_ID),
