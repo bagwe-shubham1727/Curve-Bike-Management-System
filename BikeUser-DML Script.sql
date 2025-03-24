@@ -106,50 +106,78 @@ COMMIT;
 
 
 -- Inserting data into Payment_Details table
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (501, 7, TO_DATE('2025-03-27 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 0.59, 'Cash');
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (501, 7, TO_DATE('2025-03-27 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Cash');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (502, 2, TO_DATE('2025-03-26 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2.3, 'Wallet');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (503, 1, TO_DATE('2025-03-25 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1.77, 'Credit Card');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (504, 8, TO_DATE('2025-03-24 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 0.73, 'Wallet');
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (502, 2, TO_DATE('2025-03-26 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Wallet');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (505, 3, TO_DATE('2025-03-23 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2.15, 'Cash');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (506, 5, TO_DATE('2025-03-22 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1.52, 'Wallet');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (507, 9, TO_DATE('2025-03-21 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3.42, 'Credit Card');
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (503, 1, TO_DATE('2025-03-25 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Credit Card');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (508, 10, TO_DATE('2025-03-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3.19, 'Wallet');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (509, 6, TO_DATE('2025-03-19 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1.84, 'UPI');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (510, 11, TO_DATE('2025-03-18 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1.96, 'UPI');
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (504, 8, TO_DATE('2025-03-24 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Wallet');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (511, 2, TO_DATE('2025-03-17 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2.84, 'Cash');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (512, 4, TO_DATE('2025-03-16 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2.33, 'UPI');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (513, 8, TO_DATE('2025-03-15 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1.92, 'UPI');
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (505, 3, TO_DATE('2025-03-23 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Cash');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (514, 7, TO_DATE('2025-03-14 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2.65, 'UPI');
 
-INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Rent_Duration, Payment_Method)
-VALUES (515, 1, TO_DATE('2025-03-13 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2.49, 'Wallet');
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (506, 5, TO_DATE('2025-03-22 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Wallet');
+
+
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (507, 9, TO_DATE('2025-03-21 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Credit Card');
+
+
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (508, 10, TO_DATE('2025-03-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Wallet');
+
+
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (509, 6, TO_DATE('2025-03-19 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'UPI');
+
+
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (510, 11, TO_DATE('2025-03-18 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'UPI');
+
+
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (511, 2, TO_DATE('2025-03-17 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Cash');
+
+
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (512, 4, TO_DATE('2025-03-16 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'UPI');
+
+
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (513, 8, TO_DATE('2025-03-15 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'UPI');
+
+
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (514, 7, TO_DATE('2025-03-14 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'UPI');
+
+
+
+INSERT INTO Payment_Details (Transaction_ID, Customer_ID, Date_Time, Payment_Method)
+VALUES (515, 1, TO_DATE('2025-03-13 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Wallet');
 
 
 --View the result
