@@ -16,6 +16,15 @@ EXCEPTION
 END;
 /
 
+-- Drop Bike_Model table if it exists
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE Bike_Model CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL; -- Ignore errors if table does not exist
+END;
+/
+
 -- Customer Table
 CREATE TABLE Customer (
     Customer_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,     -- Primary Key for Customer
@@ -61,3 +70,15 @@ COMMENT ON COLUMN Payment_Details.Customer_ID IS 'Foreign Key from Customer';
 COMMENT ON COLUMN Payment_Details.Date_Time IS 'Date and time of the Transaction';
 COMMENT ON COLUMN Payment_Details.Rent_Duration IS 'Duration of rent (e.g., in hours or days)';
 COMMENT ON COLUMN Payment_Details.Payment_Method IS 'e.g., ''Credit Card'', ''Wallet'', etc.';
+
+
+
+-- Bike_Model Table
+CREATE TABLE Bike_Model (
+    Model_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Bike_Model
+    Bike_Brand_Name VARCHAR2(50) NOT NULL, -- Bike's brand name
+    Bike_Model_Name VARCHAR2(50) NOT NULL -- Bike's model name
+);
+COMMENT ON COLUMN Bike_Model.Model_ID IS 'Primary Key for Bike_Model';
+COMMENT ON COLUMN Bike_Model.Bike_Brand_Name IS 'Bikes brand name';
+COMMENT ON COLUMN Bike_Model.Bike_Model_Name IS 'Bikes model name';
