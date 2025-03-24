@@ -37,6 +37,8 @@ VALUES ('Vinay', 'Kumar', 'vinay@test.com', 'test123', '5505551230', '123 Main S
 -- View the result
 SELECT * FROM Customer;
 
+COMMIT;
+
 
 -- Inserting data into Employee table
 INSERT INTO Employee (First_Name, Last_Name, Email, Phone, Street_Address, House_Number, City, State_Code, ZIP, Gender, Designation) 
@@ -70,4 +72,24 @@ INSERT INTO Employee (First_Name, Last_Name, Email, Phone, Street_Address, House
 VALUES ('Samantha', 'Clark', 'samantha.clark@email.com', '5553691234', '3690 Birch St', 'Apt 15', 'Atlanta', 'GA', '30301', 'Female', 'Operations Manager'); 
 
 -- View the result
-select * from Employee ;
+SELECT * FROM Employee;
+
+COMMIT;
+
+
+--Inserting data into Bike Model table
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Trek', 'Marlin 6'); 
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Giant', 'Talon 29er'); 
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Specialized', 'Rockhopper Sport'); 
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Cannondale', 'Trail 7'); 
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Scott', 'Aspect 970'); 
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Cube', 'AIM SL'); 
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Santa Cruz', 'Chameleon'); 
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Kona', 'Mahuna'); 
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Norco', 'Storm 2'); 
+INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name) VALUES ('Yeti', 'SB115');
+
+--View the result
+SELECT * FROM Bike_Model;
+
+COMMIT;
