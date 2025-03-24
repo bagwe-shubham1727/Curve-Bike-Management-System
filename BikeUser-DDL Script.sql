@@ -43,18 +43,27 @@ EXCEPTION
 END;
 /
 
--- Drop the Accessory table if it already exists
+-- Drop the Bike table if it already exists
 BEGIN
-    EXECUTE IMMEDIATE 'DROP TABLE Accessory CASCADE CONSTRAINTS';
+    EXECUTE IMMEDIATE 'DROP TABLE Bike CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
         NULL; -- Ignore errors if table does not exist
 END;
 /
 
--- Drop the Bike table if it already exists
+-- Drop Bike_Accessory table if it exists
 BEGIN
-    EXECUTE IMMEDIATE 'DROP TABLE Bike CASCADE CONSTRAINTS';
+    EXECUTE IMMEDIATE 'DROP TABLE Bike_Accessory CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL; -- Ignore errors if table does not exist
+END;
+/
+
+-- Drop the Accessory table if it already exists
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE Accessory CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
         NULL; -- Ignore errors if table does not exist
@@ -237,3 +246,20 @@ COMMENT ON COLUMN Maintenance.Maintenance_Description IS 'Detailed description o
 COMMENT ON COLUMN Maintenance.Repair_Cost IS 'Total cost incurred for the maintenance service (up to 10 digits, 2 decimal places)';
 COMMENT ON COLUMN Maintenance.Bike_ID IS 'Foreign Key referencing the bike that was serviced';
 COMMENT ON COLUMN Maintenance.Employee_ID IS 'Foreign Key referencing the employee who performed the maintenance';
+
+-- Bike Accessory Table
+CREATE TABLE Bike_Accessory (
+    Accessory_Item_ID RAW(16) NOT NULL,     -- Foreign key to Accessory(Item_ID)
+    Bike_ID RAW(16) NOT NULL,               -- Foreign key to Bike(Bike_ID)
+
+    CONSTRAINT Bike_ID_FK FOREIGN KEY (Bike_ID)
+        REFERENCES Bike(Bike_ID),
+
+    CONSTRAINT Accessory_Item_ID_FK FOREIGN KEY (Accessory_Item_ID)
+        REFERENCES Accessory(Item_ID),
+
+    CONSTRAINT Bike_Accessory_PK PRIMARY KEY (Accessory_Item_ID, Bike_ID)
+);
+
+COMMENT ON COLUMN Bike_Accessory.Accessory_Item_ID IS 'Foreign key referencing Accessory table';
+COMMENT ON COLUMN Bike_Accessory.Bike_ID IS 'Foreign key referencing Bike table';
