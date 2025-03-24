@@ -24,6 +24,8 @@ END;
 ALTER USER DataViewerUser DEFAULT TABLESPACE users QUOTA 0 ON users;
 ALTER USER DataViewerUser TEMPORARY TABLESPACE temp;
 
+-- Grant read-only privileges
+GRANT CREATE SESSION TO DataViewerUser;
 --------------------------------------------------------------------------------
 -- Drop and Create CustomerUser
 --------------------------------------------------------------------------------
@@ -47,7 +49,8 @@ END;
 ALTER USER CustomerUser DEFAULT TABLESPACE users QUOTA 0 ON users;
 ALTER USER CustomerUser TEMPORARY TABLESPACE temp;
 
-
+-- Grant read-only privileges
+GRANT CREATE SESSION TO CustomerUser;
 --------------------------------------------------------------------------------
 -- Drop and Create QualityAssuranceUser
 --------------------------------------------------------------------------------
@@ -71,6 +74,8 @@ END;
 ALTER USER QualityAssuranceUser DEFAULT TABLESPACE users QUOTA 0 ON users;
 ALTER USER QualityAssuranceUser TEMPORARY TABLESPACE temp;
 
+-- Grant read-only privileges
+GRANT CREATE SESSION TO QualityAssuranceUser;
 --------------------------------------------------------------------------------
 -- Drop and Create OperationsManager
 --------------------------------------------------------------------------------
@@ -93,3 +98,6 @@ END;
 
 ALTER USER OperationsManager DEFAULT TABLESPACE users QUOTA 0 ON users;
 ALTER USER OperationsManager TEMPORARY TABLESPACE temp;
+
+-- Grant read-only privileges
+GRANT CREATE SESSION TO OperationsManager;
