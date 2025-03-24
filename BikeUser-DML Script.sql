@@ -214,23 +214,17 @@ SELECT * FROM DOCKS;
 COMMIT;
 
 -- Inserting data into Bike table
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID)
-VALUES (900, 'Central Station', 'N', 800, 300);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (900, 'Central Station', 'N', 800, 300);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID)
-VALUES (901, 'Harvard Square', 'Y', 801, 301);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (901, 'Harvard Square', 'Y', 801, 301);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID)
-VALUES (902, 'MIT Gate', 'N', 802, 302);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (902, 'MIT Gate', 'N', 802, 302);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID)
-VALUES (903, 'Downtown Cambridge', 'N', 803, 303);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (903, 'Downtown Cambridge', 'N', 803, 303);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID)
-VALUES (904, 'North Station', 'Y', 804, 304);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (904, 'North Station', 'Y', 804, 304);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID)
-VALUES (905, 'Broadway 3rd', 'N', 805, 305);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (905, 'Broadway 3rd', 'N', 805, 305);
 
 -- View inserted bikes
 SELECT * FROM Bike;
