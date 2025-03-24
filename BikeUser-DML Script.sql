@@ -214,23 +214,30 @@ SELECT * FROM DOCKS;
 COMMIT;
 
 -- Inserting data into Bike table
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (900, 'Central Station', 'N', 800, 300);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (900, 'Central Station', 'N', 801, 300);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (901, 'Harvard Square', 'Y', 801, 301);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (901, 'Harvard Square', 'Y', 802, 301);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (902, 'MIT Gate', 'N', 802, 302);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (902, 'MIT Gate', 'N', 803, 302);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (903, 'Downtown Cambridge', 'N', 803, 303);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (903, 'Downtown Cambridge', 'N', 804, 303);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (904, 'North Station', 'Y', 804, 304);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (904, 'North Station', 'Y', 805, 304);
 
-INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (905, 'Broadway 3rd', 'N', 805, 305);
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (905, 'Broadway 3rd', 'N', 806, 305);
+
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (906, 'South End', 'N', 807, 306);
+
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (907, 'Union Park', 'Y', 808, 307);
+
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (908, 'Tech Crossing', 'N', 809, 308);
+
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) VALUES (909, 'Museum Square', 'Y', 810, 309);
 
 -- View inserted bikes
 SELECT * FROM Bike;
 
 COMMIT;
-
 
 -- Inserting data into Maintenance table
 INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
