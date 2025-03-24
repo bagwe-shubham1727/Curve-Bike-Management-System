@@ -187,7 +187,9 @@ CREATE TABLE DOCKS (
     Employee_ID NUMBER NOT NULL, -- Foreign Key from employee
     
     CONSTRAINT FK_Employee_ID FOREIGN KEY (Employee_ID)
-        REFERENCES Employee(Employee_ID) -- Adjust column name as per EMPLOYEE table
+        REFERENCES Employee(Employee_ID), -- Adjust column name as per EMPLOYEE table
+    
+    CONSTRAINT CHK_Bike_Count CHECK (Bike_Available <= Bike_Capacity)
 );
 
 COMMENT ON COLUMN DOCKS.Dock_ID IS 'Primary key for DOCKS';
