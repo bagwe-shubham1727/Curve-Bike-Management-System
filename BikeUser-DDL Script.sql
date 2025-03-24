@@ -52,14 +52,22 @@ EXCEPTION
 END;
 /
 
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE Bike CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL; -- Ignore errors if table does not exist
+END;
+/
+
 -- Customer Table
 CREATE TABLE Customer (
-    Customer_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,     -- Primary Key for Customer
+    Customer_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,-- Primary Key for Customer
     First_Name VARCHAR2(50) NOT NULL, --First Name of Customer
     Last_Name VARCHAR2(50) NOT NULL, --Last Name of Customer
     Email VARCHAR2(100) UNIQUE NOT NULL,  -- Each customer has a unique email
     Cust_Password RAW(256) DEFAULT NULL, --Password of Customer
-    Phone VARCHAR2(15) NOT NULL CHECK (REGEXP_LIKE(Phone, '^[0-9]{10,15}$')),  -- Valid phone numbers
+    Phone VARCHAR2(15) NOT NULL CHECK (REGEXP_LIKE(Phone, '^[0-9]{10,15}$')),-- Valid phone numbers
     Street_Address VARCHAR2(100) NOT NULL, --Street Address of Customer
     House_Number VARCHAR2(10),  --House Number of Customer
     City VARCHAR2(50) NOT NULL,  --City of Customer
@@ -140,13 +148,13 @@ COMMENT ON COLUMN Employee.ZIP IS '5-digit ZIP code of the employee';
 COMMENT ON COLUMN Employee.Gender IS 'Gender of the employee. Can be Male, Female, or Transgender';
 COMMENT ON COLUMN Employee.Designation IS 'Job title or designation of the employee';
 
-
+-- Docks Table
 CREATE TABLE DOCKS (
     Dock_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for DOCKS
     Dock_Name VARCHAR2(50) NOT NULL,                          -- Dock name
     Location VARCHAR2(50) NOT NULL,                           -- Location name
-    Bike_Capacity INTEGER DEFAULT 0 NOT NULL,                                    -- Number of bikes capacity
-    Bikes_Available INTEGER DEFAULT 0 NOT NULL,                                  -- Available bikes at the dock
+    Bike_Capacity INTEGER DEFAULT 0 NOT NULL,                 -- Number of bikes capacity
+    Bikes_Available INTEGER DEFAULT 0 NOT NULL,               -- Available bikes at the dock
     Employee_ID RAW(16) NOT NULL,                             -- Foreign Key from EMPLOYEE
     CONSTRAINT DOCKS_Employee_FK FOREIGN KEY (Employee_ID)
         REFERENCES Employee(Employee_ID)                      -- Adjust column name as per EMPLOYEE table
@@ -158,12 +166,38 @@ COMMENT ON COLUMN DOCKS.Bike_Capacity IS 'Number of bikes capacity';
 COMMENT ON COLUMN DOCKS.Bikes_Available IS 'Available bikes at the dock';
 COMMENT ON COLUMN DOCKS.Employee_ID IS 'Foreign Key from EMPLOYEE';
 
+
+-- Accessory Table
 CREATE TABLE Accessory (
     Item_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,   -- Unique identifier for each accessory
     Item_Name VARCHAR2(20) NOT NULL,                           -- Name of the accessory
-    Item_Cost NUMBER(10, 2) NOT NULL                           -- Cost of the accessory with two decimal places
+    Item_Cost NUMBER(10, 2) DEFAULT 0 NOT NULL                 -- Cost of the accessory with two decimal places
 );
 
 COMMENT ON COLUMN Accessory.Item_ID IS 'Primary Key for Accessory';
 COMMENT ON COLUMN Accessory.Item_Name IS 'Name of the Accessory';
 COMMENT ON COLUMN Accessory.Item_Cost IS 'Cost of the Accessory (max 10 digits, 2 decimals)';
+
+
+-- Bike Table 
+CREATE TABLE Bike (
+    Bike_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,         -- Unique identifier for each bike
+    Current_Location VARCHAR2(50),                                   -- Current location of the bike
+    Rental_Status CHAR(1) DEFAULT 'N' NOT NULL,                      -- Rental status (e.g., Y/N)
+    Dock_ID RAW(16) NOT NULL,                                        -- Foreign key to Docks table
+    Model_ID RAW(16) NOT NULL,                                       -- Foreign key to Bike_Model table
+
+
+    CONSTRAINT FK_Dock_ID FOREIGN KEY (Dock_ID)
+        REFERENCES Docks(Dock_ID),
+
+    CONSTRAINT FK_Model_ID FOREIGN KEY (Model_ID)
+        REFERENCES Bike_Model(Model_ID)
+);
+
+COMMENT ON COLUMN Bike.Bike_ID IS 'Primary key for Bike (RAW(16) UUID)';
+COMMENT ON COLUMN Bike.Current_Location IS 'Current location of the bike';
+COMMENT ON COLUMN Bike.Rental_Status IS 'Rental status of the bike (Y/N)';
+COMMENT ON COLUMN Bike.Dock_ID IS 'Foreign key referencing Docks';
+COMMENT ON COLUMN Bike.Model_ID IS 'Foreign key referencing Bike_Model';
+
