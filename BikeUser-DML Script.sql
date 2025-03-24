@@ -312,3 +312,40 @@ SELECT * FROM Rental;
 
 COMMIT;
 
+-- Inserting data into Bike_Accessory table
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (200, 900);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (201, 901);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (202, 902);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (203, 903);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (204, 904);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (205, 905);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (206, 906);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (207, 907);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (208, 908);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (209, 909);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (210, 906);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (203, 902);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (201, 905);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (208, 901);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (206, 909);
+
+INSERT INTO Bike_Accessory (Item_ID, Bike_ID) VALUES (205, 900);
+
+-- View inserted bike-accessory data
+SELECT * FROM Bike_Accessory;
+
+COMMIT;

@@ -258,19 +258,19 @@ COMMENT ON COLUMN Maintenance.Employee_ID IS 'Foreign Key referencing the employ
 
 -- Bike Accessory Table
 CREATE TABLE Bike_Accessory (
-    Accessory_Item_ID NUMBER NOT NULL, -- Foreign key to Accessory(Item_ID)
+    Item_ID NUMBER NOT NULL, -- Foreign key to Accessory(Item_ID)
     Bike_ID NUMBER NOT NULL, -- Foreign key to Bike(Bike_ID)
 
     CONSTRAINT Bike_ID_FK FOREIGN KEY (Bike_ID)
         REFERENCES Bike(Bike_ID),
 
-    CONSTRAINT Accessory_Item_ID_FK FOREIGN KEY (Accessory_Item_ID)
+    CONSTRAINT Item_ID_FK FOREIGN KEY (Item_ID)
         REFERENCES Accessory(Item_ID),
 
-    CONSTRAINT Bike_Accessory_PK PRIMARY KEY (Accessory_Item_ID, Bike_ID)
+    CONSTRAINT Bike_Accessory_PK PRIMARY KEY (Item_ID, Bike_ID)
 );
 
-COMMENT ON COLUMN Bike_Accessory.Accessory_Item_ID IS 'Foreign key referencing Accessory table';
+COMMENT ON COLUMN Bike_Accessory.Item_ID IS 'Foreign key referencing Accessory table';
 COMMENT ON COLUMN Bike_Accessory.Bike_ID IS 'Foreign key referencing Bike table';
 
 
