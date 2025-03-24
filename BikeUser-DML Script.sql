@@ -213,6 +213,7 @@ SELECT * FROM DOCKS;
 
 COMMIT;
 
+
 -- Inserting data into Bike table
 INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID)
 VALUES (900, 'Central Station', 'N', 800, 300);
@@ -232,8 +233,59 @@ VALUES (904, 'North Station', 'Y', 804, 304);
 INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID)
 VALUES (905, 'Broadway 3rd', 'N', 805, 305);
 
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) 
+VALUES (906, 'Longwood', 'N', 807, 309); 
+
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) 
+VALUES (907, 'Heath Street', 'Y', 808, 307); 
+
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) 
+VALUES (908, 'Ruggles st', 'N', 806, 308);
+
+INSERT INTO Bike (Bike_ID, Current_Location, Rental_Status, Dock_ID, Model_ID) 
+VALUES (909, 'Bolyston st', 'N', 809, 306);
+
+
 -- View inserted bikes
 SELECT * FROM Bike;
+
+COMMIT;
+
+
+-- Inserting data into Maintenance table
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1011, 901, 101, '2025-02-16 13:45:00', 'Replaced brake pads on bike', 15.50); 
+
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1012, 902, 102, '2025-02-17 09:00:00', 'Repaired flat tire on bike', 8.75); 
+
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1013, 909, 105, '2025-01-18 11:15:00', 'Cleaned and lubricated chain on bike', 12.00); 
+
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1014, 907, 106, '2025-03-19 14:30:00', 'Performed safety inspection on bike', 0.00); 
+
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1015, 903, 107, '2025-03-20 16:45:00', 'Replaced worn tires on bike', 35.25); 
+
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1016, 906, 103, '2025-01-21 10:00:00', 'Adjusted gears on bike', 9.50); 
+
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1017, 905, 104, '2025-03-22 12:15:00', 'Replaced handlebar grips on bike', 7.25); 
+
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1018, 908, 105, '2025-03-23 15:30:00', 'Performed full tune-up on bike', 50.00); 
+
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1019, 904, 109, '2025-01-15 09:00:00', 'Adjusted brakes on bike', 12.50);
+
+INSERT INTO Maintenance (Maintenance_ID, Bike_ID, Employee_ID, Date_Time, Maintenance_Description, Repair_Cost) 
+VALUES (1020, 900, 108, '2025-02-18 14:45:00', 'Replaced chain on bike', 20.00);
+
+
+--View the result
+select * from Maintenance;
 
 COMMIT;
 
