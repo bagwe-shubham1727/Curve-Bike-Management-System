@@ -247,7 +247,7 @@ COMMENT ON COLUMN Bike.Model_ID IS 'Foreign key referencing Bike_Model';
 -- Maintenance Table
 CREATE TABLE Maintenance (
     Maintenance_ID NUMBER NOT NULL PRIMARY KEY, -- Primary Key for Maintenance
-    Date_Time Date NOT NULL,  -- Date and time when the maintenance or repair activity occurred
+    Date_Time Date DEFAULT SYSDATE NOT NULL,  -- Date and time when the maintenance or repair activity occurred
     Maintenance_Description VARCHAR2(500), -- Detailed description of the maintenance or repair performed
     Repair_Cost NUMBER(10, 2) NOT NULL CHECK (Repair_Cost >= 0), -- Total cost incurred for the maintenance service
     Bike_ID NUMBER NOT NULL, -- Foreign Key from Bike
@@ -259,6 +259,16 @@ CREATE TABLE Maintenance (
     CONSTRAINT FK_Maintenance_Employee FOREIGN KEY (Employee_ID)
         REFERENCES Employee (Employee_ID)
 );
+
+CREATE OR REPLACE TRIGGER trigger_maint_check_date --Trigger to check the payment date is the today's date 
+BEFORE INSERT OR UPDATE ON Maintenance
+FOR EACH ROW
+BEGIN
+    IF TRUNC(:NEW.Date_Time) != TRUNC(SYSDATE) THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Date_Time must be today''s date.');
+    END IF;
+END;
+/
 
 COMMENT ON COLUMN Maintenance.Maintenance_ID IS 'Primary Key for Maintenance records';
 COMMENT ON COLUMN Maintenance.Date_Time IS 'Date and time when the maintenance or repair activity occurred';
