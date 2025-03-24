@@ -317,7 +317,7 @@ CREATE OR REPLACE FUNCTION CalculateRentalTime ( --Function to calculate Rental 
 BEGIN
     -- Calculate difference in hours
     Rental_Time := (End_Date_Time - Start_Date_Time) * 24;
-    RETURN TRUNC(Rental_Time);  
+    RETURN ROUND(Rental_Time, 2); 
 END;
 /
 
