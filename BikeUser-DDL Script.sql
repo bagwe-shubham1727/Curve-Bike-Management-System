@@ -94,7 +94,7 @@ CREATE TABLE Customer (
     First_Name VARCHAR2(50) NOT NULL, --First Name of Customer
     Last_Name VARCHAR2(50) NOT NULL, --Last Name of Customer
     Email VARCHAR2(100) UNIQUE NOT NULL CHECK (REGEXP_LIKE(Email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')),  -- Each customer has a unique email
-    Cust_Password VARCHAR2(256) DEFAULT NULL, --Password of Customer
+    Cust_Password VARCHAR2(256) NOT NULL, --Password of Customer
     Phone VARCHAR2(15) NOT NULL CHECK (REGEXP_LIKE(Phone, '^[0-9]{10,15}$')),-- Valid phone numbers
     Street_Address VARCHAR2(100) NOT NULL, --Street Address of Customer
     House_Number VARCHAR2(10),  --House Number of Customer
@@ -120,12 +120,23 @@ COMMENT ON COLUMN Customer.ZIP IS '5-digit ZIP code of Customer';
 CREATE TABLE Payment_Details (
     Transaction_ID NUMBER NOT NULL PRIMARY KEY,  -- Primary Key for Payment Details
     Customer_ID NUMBER NOT NULL,     -- Foreign Key from Customer
-    Date_Time Date NOT NULL,     -- Date and time of the Transaction
+    Date_Time Date DEFAULT SYSDATE NOT NULL,     -- Date and time of the Transaction
     Payment_Method VARCHAR2(25) NOT NULL,    -- e.g., 'Credit Card', 'Wallet', etc.
     
     CONSTRAINT FK_Customer_ID FOREIGN KEY (Customer_ID)
         REFERENCES Customer (Customer_ID)
 );
+
+CREATE OR REPLACE TRIGGER trigger_check_date --Trigger to check the payment date is the today's date 
+BEFORE INSERT OR UPDATE ON Payment_Details
+FOR EACH ROW
+BEGIN
+    IF TRUNC(:NEW.Date_Time) != TRUNC(SYSDATE) THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Date_Time must be today''s date.');
+    END IF;
+END;
+/
+
 
 COMMENT ON COLUMN Payment_Details.Transaction_ID IS 'Primary Key for Payment Details';
 COMMENT ON COLUMN Payment_Details.Customer_ID IS 'Foreign Key from Customer';
