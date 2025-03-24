@@ -161,7 +161,7 @@ CREATE TABLE Employee (
     First_Name VARCHAR2(50) NOT NULL, -- First name of Employee
     Last_Name VARCHAR2(50) NOT NULL, -- Last Name of Employee
     Email VARCHAR2(100) UNIQUE NOT NULL CHECK (REGEXP_LIKE(Email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')), -- Each Employee has a unique email
-    Phone VARCHAR2(15) NOT NULL CHECK (REGEXP_LIKE(Phone, '^[0-9]{10,15}$')),  -- Valid phone numbers
+    Phone VARCHAR2(15) NOT NULL CHECK (REGEXP_LIKE(Phone, '^[0-9]{10}$')),  -- Valid phone numbers
     Street_Address VARCHAR2(100) NOT NULL, -- Street Address of Employee
     House_Number VARCHAR2(10), -- house Number of Employee
     City VARCHAR2(50) NOT NULL, -- City of Employee
@@ -237,7 +237,7 @@ CREATE TABLE Bike (
         REFERENCES Bike_Model(Model_ID)
 );
 
-COMMENT ON COLUMN Bike.Bike_ID IS 'Primary key for Bike (RAW(16) UUID)';
+COMMENT ON COLUMN Bike.Bike_ID IS 'Primary key for Bike';
 COMMENT ON COLUMN Bike.Current_Location IS 'Current location of the bike';
 COMMENT ON COLUMN Bike.Rental_Status IS 'Rental status of the bike (Y/N)';
 COMMENT ON COLUMN Bike.Dock_ID IS 'Foreign key referencing Docks';
