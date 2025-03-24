@@ -121,7 +121,6 @@ CREATE TABLE Payment_Details (
     Transaction_ID NUMBER NOT NULL PRIMARY KEY,  -- Primary Key for Payment Details
     Customer_ID NUMBER NOT NULL,     -- Foreign Key from Customer
     Date_Time Date NOT NULL,     -- Date and time of the Transaction
-    Rent_Duration Number (5,2) NOT NULL,     -- Duration of rent (e.g., in hours or days)
     Payment_Method VARCHAR2(25) NOT NULL,    -- e.g., 'Credit Card', 'Wallet', etc.
     
     CONSTRAINT FK_Customer_ID FOREIGN KEY (Customer_ID)
@@ -131,7 +130,6 @@ CREATE TABLE Payment_Details (
 COMMENT ON COLUMN Payment_Details.Transaction_ID IS 'Primary Key for Payment Details';
 COMMENT ON COLUMN Payment_Details.Customer_ID IS 'Foreign Key from Customer';
 COMMENT ON COLUMN Payment_Details.Date_Time IS 'Date and time of the Transaction';
-COMMENT ON COLUMN Payment_Details.Rent_Duration IS 'Duration of rent (e.g., in hours or days)';
 COMMENT ON COLUMN Payment_Details.Payment_Method IS 'e.g., ''Credit Card'', ''Wallet'', etc.';
 
 
