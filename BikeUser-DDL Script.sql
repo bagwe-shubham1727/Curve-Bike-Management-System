@@ -52,8 +52,18 @@ EXCEPTION
 END;
 /
 
+-- Drop the Bike table if it already exists
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE Bike CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL; -- Ignore errors if table does not exist
+END;
+/
+
+-- Drop Maintenance table if it exists
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE Maintenance CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
         NULL; -- Ignore errors if table does not exist
@@ -148,6 +158,7 @@ COMMENT ON COLUMN Employee.ZIP IS '5-digit ZIP code of the employee';
 COMMENT ON COLUMN Employee.Gender IS 'Gender of the employee. Can be Male, Female, or Transgender';
 COMMENT ON COLUMN Employee.Designation IS 'Job title or designation of the employee';
 
+
 -- Docks Table
 CREATE TABLE DOCKS (
     Dock_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for DOCKS
@@ -201,3 +212,28 @@ COMMENT ON COLUMN Bike.Rental_Status IS 'Rental status of the bike (Y/N)';
 COMMENT ON COLUMN Bike.Dock_ID IS 'Foreign key referencing Docks';
 COMMENT ON COLUMN Bike.Model_ID IS 'Foreign key referencing Bike_Model';
 
+
+-- Maintenance Table
+CREATE TABLE Maintenance (
+    Maintenance_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,  -- Primary Key for Maintenance
+    Date_Time Date NOT NULL,     -- Date and time when the maintenance or repair activity occurred
+    Maintenance_Description VARCHAR2(500), -- Detailed description of the maintenance or repair performed
+    Repair_Cost NUMBER(10, 2) NOT NULL, -- Total cost incurred for the maintenance service
+    Bike_ID RAW(16) NOT NULL, -- Foreign Key from Bike
+    Employee_ID RAW(16) NOT NULL, -- Foreign key from employee
+    
+    
+    
+    CONSTRAINT FK_Bike_ID FOREIGN KEY (Bike_ID)
+        REFERENCES Bike (Bike_ID),
+        
+    CONSTRAINT FK_Employee_ID FOREIGN KEY (Employee_ID)
+        REFERENCES Employee (Employee_ID)
+);
+
+COMMENT ON COLUMN Maintenance.Maintenance_ID IS 'Primary Key for Maintenance records';
+COMMENT ON COLUMN Maintenance.Date_Time IS 'Date and time when the maintenance or repair activity occurred';
+COMMENT ON COLUMN Maintenance.Maintenance_Description IS 'Detailed description of the maintenance or repair performed';
+COMMENT ON COLUMN Maintenance.Repair_Cost IS 'Total cost incurred for the maintenance service (up to 10 digits, 2 decimal places)';
+COMMENT ON COLUMN Maintenance.Bike_ID IS 'Foreign Key referencing the bike that was serviced';
+COMMENT ON COLUMN Maintenance.Employee_ID IS 'Foreign Key referencing the employee who performed the maintenance';
