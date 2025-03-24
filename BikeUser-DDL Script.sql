@@ -284,7 +284,9 @@ CREATE TABLE Rental (
     End_Dock_ID NUMBER NOT NULL,  --End Dock ID
     Start_Date_Time DATE NOT NULL,  --Start Date and Time of rental
     End_Date_Time DATE NOT NULL,    --End Date and Time of rental
-    Rental_Time NUMBER DEFAULT 0 NOT NULL,    --Rental time which is set using below function and trigger
+    Rental_Time NUMBER NOT NULL,    --Rental time which is set using below function and trigger
+    
+    CONSTRAINT CHK_RentalTime CHECK (Rental_Time > 0),
     
     CONSTRAINT Customer_ID_FK FOREIGN KEY (Customer_ID)
         REFERENCES Customer(Customer_ID),
