@@ -94,7 +94,7 @@ CREATE TABLE Customer (
     First_Name VARCHAR2(50) NOT NULL, --First Name of Customer
     Last_Name VARCHAR2(50) NOT NULL, --Last Name of Customer
     Email VARCHAR2(100) UNIQUE NOT NULL CHECK (REGEXP_LIKE(Email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')),  -- Each customer has a unique email
-    Cust_Password RAW(256) DEFAULT NULL, --Password of Customer
+    Cust_Password VARCHAR2(256) DEFAULT NULL, --Password of Customer
     Phone VARCHAR2(15) NOT NULL CHECK (REGEXP_LIKE(Phone, '^[0-9]{10,15}$')),-- Valid phone numbers
     Street_Address VARCHAR2(100) NOT NULL, --Street Address of Customer
     House_Number VARCHAR2(10),  --House Number of Customer
