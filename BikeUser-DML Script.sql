@@ -289,5 +289,39 @@ select * from Maintenance;
 
 COMMIT;
 
+--Inserting data into Rentals table
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (600, 1, 900, 503, 801, 803, TO_DATE('2025-03-25 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-25 11:45:00', 'YYYY-MM-DD HH24:MI:SS'));
 
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (601, 2, 901, 502, 802, 804, TO_DATE('2025-03-26 09:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-26 11:18:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (602, 3, 902, 505, 804, 805, TO_DATE('2025-03-23 08:45:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-23 11:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (603, 4, 903, 512, 805, 806, TO_DATE('2025-03-16 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-16 12:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (604, 5, 904, 506, 806, 807, TO_DATE('2025-03-22 09:10:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-22 10:40:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (605, 6, 905, 509, 807, 808, TO_DATE('2025-03-19 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-19 12:50:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (606, 7, 906, 514, 808, 809, TO_DATE('2025-03-14 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-14 16:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (607, 8, 907, 504, 809, 810, TO_DATE('2025-03-24 13:15:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-24 14:45:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (608, 9, 908, 507, 801, 802, TO_DATE('2025-03-21 15:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-21 18:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO Rental (Rental_ID, Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time) 
+VALUES (609, 10, 909, 508, 802, 803, TO_DATE('2025-03-20 09:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2025-03-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+--View the result
+SELECT * FROM Rental;
+
+COMMIT;
 
