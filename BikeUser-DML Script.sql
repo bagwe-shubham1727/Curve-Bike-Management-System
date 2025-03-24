@@ -156,3 +156,33 @@ VALUES (515, 1, TO_DATE('2025-03-13 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2.49, '
 SELECT * FROM Payment_Details;
 
 COMMIT;
+
+
+-- Inserting data into Accessory table
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (200, 'Bicycle Helmet', 49.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (201, 'Bike Lock', 19.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (202, 'Water Bottle Holder', 9.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (203, 'Bike Lights', 29.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (204, 'Bike Pump', 39.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (205, 'Bike Fenders', 49.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (206, 'Bike Bell', 7.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (207, 'Bike Gloves', 24.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (208, 'Bike Computer', 99.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (209, 'Bike Mirror', 14.99);
+
+INSERT INTO Accessory (Item_ID, Item_Name, Item_Cost) VALUES (210, 'Bike Phone Mount', 19.99);
+
+--View the result
+SELECT * FROM Accessory;
+
+COMMIT;
+
