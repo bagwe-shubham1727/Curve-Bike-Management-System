@@ -43,6 +43,15 @@ EXCEPTION
 END;
 /
 
+-- Drop the Accessory table if it already exists
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE Accessory CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL; -- Ignore errors if table does not exist
+END;
+/
+
 -- Customer Table
 CREATE TABLE Customer (
     Customer_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,     -- Primary Key for Customer
@@ -148,3 +157,13 @@ COMMENT ON COLUMN DOCKS.Location IS 'Location name';
 COMMENT ON COLUMN DOCKS.Bike_Capacity IS 'Number of bikes capacity';
 COMMENT ON COLUMN DOCKS.Bikes_Available IS 'Available bikes at the dock';
 COMMENT ON COLUMN DOCKS.Employee_ID IS 'Foreign Key from EMPLOYEE';
+
+CREATE TABLE Accessory (
+    Item_ID RAW(16) DEFAULT SYS_GUID() NOT NULL PRIMARY KEY,   -- Unique identifier for each accessory
+    Item_Name VARCHAR2(20) NOT NULL,                           -- Name of the accessory
+    Item_Cost NUMBER(10, 2) NOT NULL                           -- Cost of the accessory with two decimal places
+);
+
+COMMENT ON COLUMN Accessory.Item_ID IS 'Primary Key for Accessory';
+COMMENT ON COLUMN Accessory.Item_Name IS 'Name of the Accessory';
+COMMENT ON COLUMN Accessory.Item_Cost IS 'Cost of the Accessory (max 10 digits, 2 decimals)';
