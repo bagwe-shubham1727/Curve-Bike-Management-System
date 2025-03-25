@@ -26,6 +26,8 @@ ALTER USER DataViewerUser TEMPORARY TABLESPACE temp;
 
 -- Grant read-only privileges
 GRANT CREATE SESSION TO DataViewerUser;
+GRANT CREATE VIEW TO DataViewerUser;
+
 --------------------------------------------------------------------------------
 -- Drop and Create CustomerUser
 --------------------------------------------------------------------------------
@@ -51,6 +53,7 @@ ALTER USER CustomerUser TEMPORARY TABLESPACE temp;
 
 -- Grant read-only privileges
 GRANT CREATE SESSION TO CustomerUser;
+GRANT CREATE VIEW TO CustomerUser;
 --------------------------------------------------------------------------------
 -- Drop and Create QualityAssuranceUser
 --------------------------------------------------------------------------------
@@ -76,6 +79,7 @@ ALTER USER QualityAssuranceUser TEMPORARY TABLESPACE temp;
 
 -- Grant read-only privileges
 GRANT CREATE SESSION TO QualityAssuranceUser;
+GRANT CREATE VIEW TO QualityAssuranceUser;
 --------------------------------------------------------------------------------
 -- Drop and Create OperationsManager
 --------------------------------------------------------------------------------
@@ -101,3 +105,4 @@ ALTER USER OperationsManager TEMPORARY TABLESPACE temp;
 
 -- Grant read-only privileges
 GRANT CREATE SESSION TO OperationsManager;
+GRANT CREATE VIEW TO OperationsManager;
