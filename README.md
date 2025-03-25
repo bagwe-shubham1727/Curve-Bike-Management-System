@@ -6,7 +6,7 @@ Team Members :
 Shubham Bagwe - 002057120
 Siddhesh Sawant - 002058340
 Omkar Salian - 002050108
-Soham CHavan - 002307796
+Soham Chavan - 002307796
 
 
 # Project Database Setup
