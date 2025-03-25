@@ -1,5 +1,14 @@
 # Curve-Bike-Management-System
 
+Group Number - 15
+
+Team Members : 
+Shubham Bagwe - 002057120
+Siddhesh Sawant - 002058340
+Omkar Salian - 002050108
+Soham CHavan - 002307796
+
+
 # Project Database Setup
 
 This project involves setting up a database environment with specific user permissions and configurations. Please follow the steps below to ensure the database is configured correctly.
