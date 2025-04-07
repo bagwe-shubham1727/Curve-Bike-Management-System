@@ -88,6 +88,15 @@ EXCEPTION
 END;
 /
 
+-- Drop Rental table if it exists
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE Customer_Log CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL; -- Ignore errors if table does not exist
+END;
+/
+
 -- Customer Table
 CREATE TABLE Customer (
     Customer_ID NUMBER NOT NULL PRIMARY KEY,-- Primary Key for Customer
@@ -366,5 +375,78 @@ BEGIN
     IF :NEW.Start_Date_Time IS NOT NULL AND :NEW.End_Date_Time IS NOT NULL THEN
         :NEW.Rental_Time := CalculateRentalTime(:NEW.Start_Date_Time, :NEW.End_Date_Time);
     END IF;
+END;
+/
+
+
+-- Create Customer_Log table
+CREATE TABLE Customer_Log (
+    AUDIT_ID NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    CUSTOMER_ID NUMBER NOT NULL,
+    ACTION_TYPE VARCHAR2(10) NOT NULL,
+
+    OLD_FIRST_NAME VARCHAR2(50),
+
+    OLD_LAST_NAME VARCHAR2(50),
+
+    OLD_EMAIL VARCHAR2(100),
+
+    OLD_CUST_PASSWORD VARCHAR2(256),
+
+    OLD_PHONE VARCHAR2(15),
+
+    OLD_STREET_ADDRESS VARCHAR2(100),
+
+    OLD_HOUSE_NUMBER VARCHAR2(10),
+
+    OLD_CITY VARCHAR2(50),
+
+    OLD_STATE_CODE CHAR(2),
+
+    OLD_ZIP VARCHAR2(10),
+
+    AUDIT_DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE OR REPLACE TRIGGER TRG_CUSTOMER_AUDIT --Trigger to log Customer data changes to save new and old values
+AFTER INSERT OR UPDATE OR DELETE ON CUSTOMER
+FOR EACH ROW
+DECLARE
+    v_action VARCHAR2(10);
+BEGIN
+    IF INSERTING THEN
+        v_action := 'Insert';
+    ELSIF UPDATING THEN
+        v_action := 'Update';
+    ELSIF DELETING THEN
+        v_action := 'Delete';
+    END IF;
+
+    INSERT INTO CUSTOMER_LOG (
+        CUSTOMER_ID, ACTION_TYPE,
+        OLD_FIRST_NAME,
+        OLD_LAST_NAME,
+        OLD_EMAIL,
+        OLD_CUST_PASSWORD,
+        OLD_PHONE,
+        OLD_STREET_ADDRESS,
+        OLD_HOUSE_NUMBER,
+        OLD_CITY,
+        OLD_STATE_CODE,
+        OLD_ZIP
+    ) VALUES (
+        :OLD.CUSTOMER_ID, 
+        v_action,
+        :OLD.FIRST_NAME,
+        :OLD.LAST_NAME,
+        :OLD.EMAIL, 
+        :OLD.CUST_PASSWORD,
+        :OLD.PHONE,
+        :OLD.STREET_ADDRESS,
+        :OLD.HOUSE_NUMBER,
+        :OLD.CITY, 
+        :OLD.STATE_CODE,
+        :OLD.ZIP
+    );
 END;
 /
