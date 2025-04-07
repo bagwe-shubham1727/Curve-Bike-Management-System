@@ -71,5 +71,18 @@ BEGIN
         WHEN table_not_exist THEN
             NULL;
     END;
+    
+    BEGIN
+        EXECUTE IMMEDIATE 'GRANT EXECUTE ON customer_data_pkg TO OperationsManager';
+    EXCEPTION
+        WHEN OTHERS THEN
+            IF SQLCODE = -942 THEN
+                -- Handle the case where the package does not exist
+                DBMS_OUTPUT.PUT_LINE('Package customer_data_pkg does not exist.');
+            ELSE
+                -- Handle other exceptions
+                RAISE;
+            END IF;
+    END;
 END;
 /
