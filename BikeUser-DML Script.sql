@@ -237,7 +237,15 @@ INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Availa
 INSERT INTO DOCKS (Dock_ID, Dock_Name, Dock_Location, Bike_Capacity, Bike_Available,Employee_ID) VALUES (810, 'Charlestown Dock', 'Boston', 10, 7,110);
 
 --View the result
-SELECT * FROM DOCKS;
+SELECT 
+    Dock_ID,
+    Dock_Name,
+    Dock_Location,
+    Bike_Capacity,
+    Bike_Available,
+    Employee_ID,
+    CalculateAvailableSpots(Bike_Capacity, Bike_Available) AS Available_Spots
+FROM DOCKS;
 
 COMMIT;
 

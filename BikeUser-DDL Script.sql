@@ -217,6 +217,17 @@ COMMENT ON COLUMN DOCKS.Bike_Capacity IS 'Number of bikes capacity';
 COMMENT ON COLUMN DOCKS.Bike_Available IS 'Available bikes at the dock';
 COMMENT ON COLUMN DOCKS.Employee_ID IS 'Foreign Key from EMPLOYEE';
 
+CREATE OR REPLACE FUNCTION CalculateAvailableSpots (
+    BikeCapacity IN NUMBER,
+    BikeAvailable IN NUMBER
+) RETURN NUMBER
+IS
+    AvailableSpots NUMBER;
+BEGIN
+    AvailableSpots := BikeCapacity - BikeAvailable;
+    RETURN AvailableSpots;
+END;
+/
 
 -- Accessory Table
 CREATE TABLE Accessory (
