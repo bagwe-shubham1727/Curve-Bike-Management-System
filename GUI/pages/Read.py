@@ -19,10 +19,10 @@ st.subheader('Read Operation')
 
 def read_accessory_id(itemid):
     try:
-        cursor.execute("SELECT * FROM Accessory WHERE ItemID = :1", [itemid])
+        cursor.execute("SELECT * FROM ACCESSORY WHERE ITEM_ID = :1", [itemid])
         result = cursor.fetchone()
         if result:
-            df = pd.DataFrame([list(result)], columns=['ItemID', 'ItemName', 'ItemCost', 'ItemCount'])
+            df = pd.DataFrame([list(result)], columns=['ITEM_ID', 'ITEM_NAME', 'ITEM_COST'])
             st.table(df)
         else:
             st.warning("Accessory not found.")
@@ -31,10 +31,10 @@ def read_accessory_id(itemid):
 
 def read_bike_id(bikeid):
     try:
-        cursor.execute("SELECT * FROM Bike WHERE BikeID = :1", [bikeid])
+        cursor.execute("SELECT * FROM BIKE WHERE BIKE_ID = :1", [bikeid])
         result = cursor.fetchone()
         if result:
-            df = pd.DataFrame([list(result)], columns=['BikeID', 'BikeModelID', 'DockID', 'BikeLocation', 'BikeRentalStatus'])
+            df = pd.DataFrame([list(result)], columns=['BIKE_ID', 'CURRENT_LOCATION', 'RENTAL_STATUS', 'DOCK_ID', 'MODEL_ID'])
             st.table(df)
         else:
             st.warning("Bike not found.")
@@ -43,10 +43,10 @@ def read_bike_id(bikeid):
 
 def read_customer_id(custid):
     try:
-        cursor.execute("SELECT * FROM Customer WHERE CUSTOMER_ID = :1", [custid])
-        row = cursor.fetchone()
-        if row:
-            df = pd.DataFrame([list(row)], columns=[
+        cursor.execute("SELECT * FROM CUSTOMER WHERE CUSTOMER_ID = :1", [custid])
+        result = cursor.fetchone()
+        if result:
+            df = pd.DataFrame([list(result)], columns=[
                 'CUSTOMER_ID', 'FIRST_NAME', 'LAST_NAME', 'EMAIL', 'CUST_PASSWORD',
                 'PHONE', 'STREET_ADDRESS', 'HOUSE_NUMBER', 'CITY', 'STATE_CODE', 'ZIP'
             ])
@@ -56,13 +56,12 @@ def read_customer_id(custid):
     except Exception as e:
         st.error(f"Error reading customer: {e}")
 
-
 def read_dock_id(dockid):
     try:
-        cursor.execute("SELECT * FROM Dock WHERE DockID = :1", [dockid])
+        cursor.execute("SELECT * FROM DOCKS WHERE DOCK_ID = :1", [dockid])
         result = cursor.fetchone()
         if result:
-            df = pd.DataFrame([list(result)], columns=['DockID', 'EmployeeID', 'DockName', 'DockLocation', 'BikeCapacity','BikeAvailable', 'AvailableSpots'])
+            df = pd.DataFrame([list(result)], columns=['DOCK_ID', 'DOCK_NAME', 'DOCK_LOCATION', 'BIKE_CAPACITY', 'BIKE_AVAILABLE', 'EMPLOYEE_ID'])
             st.table(df)
         else:
             st.warning("Dock not found.")
@@ -71,22 +70,40 @@ def read_dock_id(dockid):
 
 def view_employee_id(employee_id):
     try:
-        cursor.execute("SELECT * FROM Employee WHERE EmployeeID = :1", [employee_id])
+        cursor.execute("SELECT * FROM EMPLOYEE WHERE EMPLOYEE_ID = :1", [employee_id])
         result = cursor.fetchone()
         if result:
-            df = pd.DataFrame([list(result)], columns=['EmployeeID', 'EmpFName', 'EmpLName', 'EmpEmail', 'EmpPhone', 'EmpStreetAddress', 'EmpHouseNo', 'EmpCity', 'EmpState', 'EmpZIP', 'EmpGender', 'EmpDesignation'])
+            df = pd.DataFrame([list(result)], columns=[
+                'EMPLOYEE_ID', 'FIRST_NAME', 'LAST_NAME', 'EMAIL', 'PHONE',
+                'STREET_ADDRESS', 'HOUSE_NUMBER', 'CITY', 'STATE_CODE', 'ZIP', 'GENDER', 'DESIGNATION'
+            ])
             st.table(df)
         else:
             st.warning("Employee not found.")
     except Exception as e:
         st.error(f"Error reading employee: {e}")
 
+def read_rental_id(rental_id):
+    try:
+        cursor.execute("SELECT * FROM RENTAL WHERE RENTAL_ID = :1", [rental_id])
+        result = cursor.fetchone()
+        if result:
+            df = pd.DataFrame([list(result)], columns=[
+                'RENTAL_ID', 'CUSTOMER_ID', 'BIKE_ID', 'TRANSACTION_ID', 'START_DOCK_ID',
+                'END_DOCK_ID', 'START_DATE_TIME', 'END_DATE_TIME', 'RENTAL_TIME'
+            ])
+            st.table(df)
+        else:
+            st.warning("Rental not found.")
+    except Exception as e:
+        st.error(f"Error reading rental: {e}")
+
 def read_accessory():
     try:
-        cursor.execute("SELECT * FROM Accessory")
+        cursor.execute("SELECT * FROM ACCESSORY")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['ItemID', 'ItemName', 'ItemCost', 'ItemCount'])
+            df = pd.DataFrame([list(row) for row in data], columns=['ITEM_ID', 'ITEM_NAME', 'ITEM_COST'])
             st.table(df)
         else:
             st.warning("Accessory not found.")
@@ -95,10 +112,10 @@ def read_accessory():
 
 def read_bike():
     try:
-        cursor.execute("SELECT * FROM Bike")
+        cursor.execute("SELECT * FROM BIKE")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['BikeID', 'BikeModelID', 'DockID', 'BikeLocation', 'BikeRentalStatus'])
+            df = pd.DataFrame([list(row) for row in data], columns=['BIKE_ID', 'CURRENT_LOCATION', 'RENTAL_STATUS', 'DOCK_ID', 'MODEL_ID'])
             st.table(df)
         else:
             st.warning("Bike not found.")
@@ -107,10 +124,11 @@ def read_bike():
 
 def read_customer():
     try:
-        cursor.execute("SELECT * FROM Customer")
+        cursor.execute("SELECT * FROM CUSTOMER")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['CustomerID', 'CustFName', 'CustLName', 'CustEmail', 'CustPassword', 'CustPhone', 'CustStreetAddress', 'CustHouseNo', 'CustCity', 'CustState', 'CustZIP'])
+            df = pd.DataFrame([list(row) for row in data], columns=['CUSTOMER_ID', 'FIRST_NAME', 'LAST_NAME', 'EMAIL', 'CUST_PASSWORD',
+                'PHONE', 'STREET_ADDRESS', 'HOUSE_NUMBER', 'CITY', 'STATE_CODE', 'ZIP'])
             st.table(df)
         else:
             st.warning("Customer not found.")
@@ -119,10 +137,10 @@ def read_customer():
 
 def read_dock():
     try:
-        cursor.execute("SELECT * FROM Dock")
+        cursor.execute("SELECT * FROM DOCKS")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['DockID', 'EmployeeID', 'DockName', 'DockLocation', 'BikeCapacity','BikeAvailable', 'AvailableSpots'])
+            df = pd.DataFrame([list(row) for row in data], columns=['DOCK_ID', 'DOCK_NAME', 'DOCK_LOCATION', 'BIKE_CAPACITY', 'BIKE_AVAILABLE', 'EMPLOYEE_ID'])
             st.table(df)
         else:
             st.warning("Dock not found.")
@@ -131,58 +149,34 @@ def read_dock():
 
 def view_employee():
     try:
-        cursor.execute("SELECT * FROM Employee")
+        cursor.execute("SELECT * FROM EMPLOYEE")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['EmployeeID', 'EmpFName', 'EmpLName', 'EmpEmail', 'EmpPhone', 'EmpStreetAddress', 'EmpHouseNo', 'EmpCity', 'EmpState', 'EmpZIP', 'EmpGender', 'EmpDesignation'])
+            df = pd.DataFrame([list(row) for row in data], columns=['EMPLOYEE_ID', 'FIRST_NAME', 'LAST_NAME', 'EMAIL', 'PHONE', 'STREET_ADDRESS', 'HOUSE_NUMBER', 'CITY', 'STATE_CODE', 'ZIP', 'GENDER', 'DESIGNATION'])
             st.table(df)
         else:
             st.warning("Employee not found.")
     except Exception as e:
         st.error(f"Error reading employee: {e}")
 
-def read_payment_method():
-    try:
-        cursor.execute("SELECT * FROM PaymentMethod")
-        data = cursor.fetchall()
-        if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['PaymentID', 'CustomerID', 'PaymentType'])
-            st.table(df)
-        else:
-            st.warning("PaymentMethod not found.")
-    except Exception as e:
-        st.error(f"Error reading PaymentMethod: {e}")
-
-def read_bank_account():
-    try:
-        cursor.execute("SELECT * FROM BankAccountPayment")
-        data = cursor.fetchall()
-        if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['PaymentID', 'BankAccFName', 'BankAccLName', 'AccountNumber', 'RoutingNumber', 'AccountType'])
-            st.table(df)
-        else:
-            st.warning("BankAccountPayment not found.")
-    except Exception as e:
-        st.error(f"Error reading BankAccountPayment: {e}")
-
 def read_transaction():
     try:
-        cursor.execute("SELECT * FROM Transaction")  # Don't use [Transaction] in Oracle
+        cursor.execute("SELECT * FROM PAYMENT_DETAILS")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['TransactionID', 'CustomerID', 'PaymentID', 'TransactionDateTime', 'RentDuration', 'TransactionCost'])
+            df = pd.DataFrame([list(row) for row in data], columns=['TRANSACTION_ID', 'CUSTOMER_ID', 'DATE_TIME', 'PAYMENT_METHOD'])
             st.table(df)
         else:
-            st.warning("Transaction not found.")
+            st.warning("Payment Details not found.")
     except Exception as e:
-        st.error(f"Error reading Transaction: {e}")
+        st.error(f"Error reading Payment Details: {e}")
 
 def read_bike_model():
     try:
-        cursor.execute("SELECT * FROM BikeModel")
+        cursor.execute("SELECT * FROM BIKE_MODEL")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['Bike ID', 'BikeBrandName', 'BikeModelName'])
+            df = pd.DataFrame([list(row) for row in data], columns=['MODEL_ID', 'BIKE_BRAND_NAME', 'BIKE_MODEL_NAME'])
             st.table(df)
         else:
             st.warning("BikeModel not found.")
@@ -191,10 +185,10 @@ def read_bike_model():
 
 def read_maintenance():
     try:
-        cursor.execute("SELECT * FROM Maintenance")
+        cursor.execute("SELECT * FROM MAINTENANCE")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['MaintenanceID', 'BikeID', 'EmployeeID', 'MaintenanceDateTime', 'MaintenanceDescription', 'MaintenanceCost'])
+            df = pd.DataFrame([list(row) for row in data], columns=['MAINTENANCE_ID', 'DATE_TIME', 'MAINTENANCE_DESCRIPTION', 'REPAIR_COST', 'BIKE_ID', 'EMPLOYEE_ID'])
             st.table(df)
         else:
             st.warning("Maintenance not found.")
@@ -203,10 +197,10 @@ def read_maintenance():
 
 def read_rental():
     try:
-        cursor.execute("SELECT * FROM Rental")
+        cursor.execute("SELECT * FROM RENTAL")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['RentalID', 'CustomerID', 'BikeID', 'TransactionID', 'StartDockID', 'EndDockID', 'StartDateTime', 'EndDateTime', 'RentalTime'])
+            df = pd.DataFrame([list(row) for row in data], columns=['RENTAL_ID', 'CUSTOMER_ID', 'BIKE_ID', 'TRANSACTION_ID', 'START_DOCK_ID', 'END_DOCK_ID', 'START_DATE_TIME', 'END_DATE_TIME', 'RENTAL_TIME'])
             st.table(df)
         else:
             st.warning("Rental not found.")
@@ -215,18 +209,17 @@ def read_rental():
 
 def read_bike_accessory():
     try:
-        cursor.execute("SELECT * FROM Bike_Accessory")
+        cursor.execute("SELECT * FROM BIKE_ACCESSORY")
         data = cursor.fetchall()
         if data:
-            df = pd.DataFrame([list(row) for row in data], columns=['BikeID', 'ItemID'])
+            df = pd.DataFrame([list(row) for row in data], columns=['ITEM_ID', 'BIKE_ID'])
             st.table(df)
         else:
             st.warning("BikeAccessory not found.")
     except Exception as e:
         st.error(f"Error reading BikeAccessory: {e}")
 
-# Dropdown + input for entity-specific view
-option = st.selectbox("Select a table", ("Select", "Accessory", "Bike", "Customer", "Dock", "Employee", "PaymentMethod", "BankAccountPayment", "Transaction", "BikeModel", "Maintenance", "Rental", "BikeAccessory"))
+option = st.selectbox("Select a table", ("Select", "Accessory", "Bike", "Customer", "Dock", "Employee", "Payment Details", "BikeModel", "Maintenance", "Rental", "BikeAccessory"))
 
 if option == "Accessory":
     read_accessory()
@@ -258,13 +251,7 @@ elif option == "Employee":
     if st.button("View"):
         view_employee_id(employee_id)
 
-elif option == "PaymentMethod":
-    read_payment_method()
-
-elif option == "BankAccountPayment":
-    read_bank_account()
-
-elif option == "Transaction":
+elif option == "Payment Details":
     read_transaction()
 
 elif option == "BikeModel":
@@ -275,6 +262,9 @@ elif option == "Maintenance":
 
 elif option == "Rental":
     read_rental()
+    rental_id = st.text_input("Enter Rental ID to view:")
+    if st.button("View Rental"):
+        read_rental_id(rental_id)
 
 elif option == "BikeAccessory":
     read_bike_accessory()
