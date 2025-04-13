@@ -99,7 +99,8 @@ END;
 
 -- Customer Table
 CREATE TABLE Customer (
-    Customer_ID NUMBER NOT NULL PRIMARY KEY,-- Primary Key for Customer
+    Customer_ID NUMBER GENERATED ALWAYS AS IDENTITY
+        START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE,-- Primary Key for Customer
     First_Name VARCHAR2(50) NOT NULL, --First Name of Customer
     Last_Name VARCHAR2(50) NOT NULL, --Last Name of Customer
     Email VARCHAR2(100) UNIQUE NOT NULL CHECK (REGEXP_LIKE(Email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')),  -- Each customer has a unique email
@@ -109,7 +110,8 @@ CREATE TABLE Customer (
     House_Number VARCHAR2(10),  --House Number of Customer
     City VARCHAR2(50) NOT NULL,  --City of Customer
     State_Code CHAR(2)NOT NULL,  --State Code of Customer
-    ZIP VARCHAR2(10) NOT NULL CHECK (LENGTH(ZIP) = 5)   --Zip code of Customer with limit 5
+    ZIP VARCHAR2(10) NOT NULL CHECK (LENGTH(ZIP) = 5),   --Zip code of Customer with limit 5
+    CONSTRAINT cust_pk PRIMARY KEY (Customer_ID)
 );
 
 COMMENT ON COLUMN Customer.Customer_ID IS 'Primary Key for Customer';
@@ -127,11 +129,13 @@ COMMENT ON COLUMN Customer.ZIP IS '5-digit ZIP code of Customer';
 
 -- Payment_Details Table
 CREATE TABLE Payment_Details (
-    Transaction_ID NUMBER NOT NULL PRIMARY KEY,  -- Primary Key for Payment Details
+    Transaction_ID NUMBER GENERATED ALWAYS AS IDENTITY
+        START WITH 1000 INCREMENT BY 1 NOCACHE NOCYCLE,  -- Primary Key for Payment Details
     Customer_ID NUMBER NOT NULL,     -- Foreign Key from Customer
     Date_Time Date DEFAULT SYSDATE NOT NULL,     -- Date and time of the Transaction
     Payment_Method VARCHAR2(25) NOT NULL,    -- e.g., 'Credit Card', 'Wallet', etc.
     
+    CONSTRAINT pk_transaction_id PRIMARY KEY (Transaction_ID),
     CONSTRAINT FK_Customer_ID FOREIGN KEY (Customer_ID)
         REFERENCES Customer (Customer_ID)
 );
@@ -155,9 +159,12 @@ COMMENT ON COLUMN Payment_Details.Payment_Method IS 'e.g., ''Credit Card'', ''Wa
 
 -- Bike_Model Table
 CREATE TABLE Bike_Model (
-    Model_ID NUMBER NOT NULL PRIMARY KEY,  -- Primary Key for Bike_Model
+    Model_ID NUMBER GENERATED ALWAYS AS IDENTITY
+        START WITH 2000 INCREMENT BY 1 NOCACHE NOCYCLE,  -- Primary Key for Bike_Model
     Bike_Brand_Name VARCHAR2(50) NOT NULL, -- Bike's brand name
-    Bike_Model_Name VARCHAR2(50) NOT NULL -- Bike's model name
+    Bike_Model_Name VARCHAR2(50) NOT NULL, -- Bike's model name
+    
+    CONSTRAINT pk_model_id PRIMARY KEY (Model_ID)
 );
 COMMENT ON COLUMN Bike_Model.Model_ID IS 'Primary Key for Bike_Model';
 COMMENT ON COLUMN Bike_Model.Bike_Brand_Name IS 'Bikes brand name';
@@ -166,7 +173,8 @@ COMMENT ON COLUMN Bike_Model.Bike_Model_Name IS 'Bikes model name';
 
 -- Employee Table
 CREATE TABLE Employee (
-    Employee_ID NUMBER NOT NULL PRIMARY KEY,  -- Primary Key for Employee
+    Employee_ID NUMBER GENERATED ALWAYS AS IDENTITY
+        START WITH 3000 INCREMENT BY 1 NOCACHE NOCYCLE,  -- Primary Key for Employee
     First_Name VARCHAR2(50) NOT NULL, -- First name of Employee
     Last_Name VARCHAR2(50) NOT NULL, -- Last Name of Employee
     Email VARCHAR2(100) UNIQUE NOT NULL CHECK (REGEXP_LIKE(Email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')), -- Each Employee has a unique email
@@ -177,7 +185,8 @@ CREATE TABLE Employee (
     State_Code CHAR(2)NOT NULL, -- State Code of Employee
     ZIP VARCHAR2(10) NOT NULL CHECK (LENGTH(ZIP) = 5), -- Zip Code of Employee with limit 5
     Gender VARCHAR2(11) CHECK (Gender IN ('Male', 'Female', 'Transgender')), -- Gender of Employee
-    Designation VARCHAR2(50) NOT NULL -- Designation of Employee
+    Designation VARCHAR2(50) NOT NULL, -- Designation of Employee
+    CONSTRAINT pk_employee_id PRIMARY KEY (Employee_ID)
 );
 
 
@@ -197,13 +206,15 @@ COMMENT ON COLUMN Employee.Designation IS 'Job title or designation of the emplo
 
 -- Docks Table
 CREATE TABLE DOCKS (
-    Dock_ID NUMBER NOT NULL PRIMARY KEY, -- Primary Key for DOCKS
+    Dock_ID NUMBER GENERATED ALWAYS AS IDENTITY
+        START WITH 4000 INCREMENT BY 1 NOCACHE NOCYCLE, -- Primary Key for DOCKS
     Dock_Name VARCHAR2(50) NOT NULL, -- Dock name
     Dock_Location VARCHAR2(50) NOT NULL, -- Location name
     Bike_Capacity NUMBER NOT NULL CHECK (Bike_Capacity >= 0), -- Number of bikes capacity
     Bike_Available NUMBER NOT NULL CHECK (Bike_Available >= 0), -- Available bikes at the dock
     Employee_ID NUMBER NOT NULL, -- Foreign Key from employee
     
+    CONSTRAINT pk_dock_id PRIMARY KEY (Dock_ID),
     CONSTRAINT FK_Employee_ID FOREIGN KEY (Employee_ID)
         REFERENCES Employee(Employee_ID), -- Adjust column name as per EMPLOYEE table
     
@@ -231,9 +242,11 @@ END;
 
 -- Accessory Table
 CREATE TABLE Accessory (
-    Item_ID NUMBER NOT NULL PRIMARY KEY, -- Unique identifier for each accessory
+    Item_ID NUMBER GENERATED ALWAYS AS IDENTITY
+        START WITH 5000 INCREMENT BY 1 NOCACHE NOCYCLE, -- Unique identifier for each accessory
     Item_Name VARCHAR2(20) NOT NULL, -- Name of the accessory
-    Item_Cost NUMBER(10, 2) DEFAULT 0 NOT NULL CHECK (Item_Cost >= 0) -- Cost of the accessory with two decimal places
+    Item_Cost NUMBER(10, 2) DEFAULT 0 NOT NULL CHECK (Item_Cost >= 0), -- Cost of the accessory with two decimal places
+    CONSTRAINT pk_item_id PRIMARY KEY (Item_ID)
 );
 
 COMMENT ON COLUMN Accessory.Item_ID IS 'Primary Key for Accessory';
@@ -243,13 +256,15 @@ COMMENT ON COLUMN Accessory.Item_Cost IS 'Cost of the Accessory (max 10 digits, 
 
 -- Bike Table 
 CREATE TABLE Bike (
-    Bike_ID NUMBER NOT NULL PRIMARY KEY, -- Unique identifier for each bike
+    Bike_ID NUMBER GENERATED ALWAYS AS IDENTITY
+        START WITH 6000 INCREMENT BY 1 NOCACHE NOCYCLE, -- Unique identifier for each bike
     Current_Location VARCHAR2(50), -- Current location of the bike
     Rental_Status CHAR(1) DEFAULT 'N' NOT NULL CHECK (Rental_Status IN ('Y', 'N')),  -- 'Y' = Rented, 'N' = Available
     Dock_ID NUMBER NOT NULL, -- Foreign key to Docks table
     Model_ID NUMBER NOT NULL,  -- Foreign key to Bike_Model table
 
 
+    CONSTRAINT pk_bike_id PRIMARY KEY (Bike_ID),
     CONSTRAINT FK_Dock_ID FOREIGN KEY (Dock_ID)
         REFERENCES Docks(Dock_ID),
 
@@ -266,13 +281,15 @@ COMMENT ON COLUMN Bike.Model_ID IS 'Foreign key referencing Bike_Model';
 
 -- Maintenance Table
 CREATE TABLE Maintenance (
-    Maintenance_ID NUMBER NOT NULL PRIMARY KEY, -- Primary Key for Maintenance
+    Maintenance_ID NUMBER GENERATED ALWAYS AS IDENTITY
+        START WITH 7000 INCREMENT BY 1 NOCACHE NOCYCLE, -- Primary Key for Maintenance
     Date_Time Date DEFAULT SYSDATE NOT NULL,  -- Date and time when the maintenance or repair activity occurred
     Maintenance_Description VARCHAR2(500), -- Detailed description of the maintenance or repair performed
     Repair_Cost NUMBER(10, 2) NOT NULL CHECK (Repair_Cost >= 0), -- Total cost incurred for the maintenance service
     Bike_ID NUMBER NOT NULL, -- Foreign Key from Bike
     Employee_ID NUMBER NOT NULL, -- Foreign key from employee
     
+    CONSTRAINT pk_maintenance_id PRIMARY KEY (Maintenance_ID),
     CONSTRAINT FK_Maintenance_Bike FOREIGN KEY (Bike_ID)
         REFERENCES Bike (Bike_ID),
         
@@ -317,7 +334,8 @@ COMMENT ON COLUMN Bike_Accessory.Bike_ID IS 'Foreign key referencing Bike table'
 
 --Rental Table
 CREATE TABLE Rental (
-    Rental_ID NUMBER NOT NULL PRIMARY KEY,
+    Rental_ID NUMBER GENERATED ALWAYS AS IDENTITY
+        START WITH 8000 INCREMENT BY 1 NOCACHE NOCYCLE,
     Customer_ID NUMBER NOT NULL,
     Bike_ID NUMBER NOT NULL,
     Transaction_ID NUMBER NOT NULL,
@@ -327,6 +345,7 @@ CREATE TABLE Rental (
     End_Date_Time DATE NOT NULL,
     Rental_Time NUMBER DEFAULT 0 NOT NULL,
 
+    CONSTRAINT pk_rental_id PRIMARY KEY (Rental_ID),
     CONSTRAINT FK_Customer FOREIGN KEY (Customer_ID) REFERENCES Customer(Customer_ID),
     CONSTRAINT FK_Bike FOREIGN KEY (Bike_ID) REFERENCES Bike(Bike_ID),
     CONSTRAINT FK_Transaction FOREIGN KEY (Transaction_ID) REFERENCES Payment_Details(Transaction_ID),
