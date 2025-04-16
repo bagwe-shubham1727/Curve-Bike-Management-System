@@ -1,6 +1,3 @@
--- Updated Test Cases for Curve Electric E-Bikes Management System
--- These test cases validate the constraints and business rules defined in the DDL
-
 -- Test Case 1: PRIMARY KEY constraint on Customer (auto-generated ID)
 BEGIN
     -- Attempting to insert with explicit Customer_ID should fail since it's auto-generated
@@ -78,25 +75,25 @@ EXCEPTION
 END;
 /
 
--- Test Case 8: NOT NULL constraint on Bike_Model
-BEGIN
-    -- Attempting to insert NULL for a required field should fail
-    INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name)
-    VALUES (NULL, 'Test Model');
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Test 8 Passed: NOT NULL constraint violation (Bike_Model.Bike_Brand_Name): ' || SQLERRM);
-END;
-/
-
--- Test Case 9: Gender validation on Employee
+-- Test Case 8: Gender validation on Employee
 BEGIN
     -- Attempting to insert an invalid Gender value should fail
     INSERT INTO Employee (First_Name, Last_Name, Email, Phone, Street_Address, House_Number, City, State_Code, ZIP, Gender, Designation)
     VALUES ('Invalid', 'Gender', 'gender_test@xyz.com', '5555554444', 'Gender Street', '100', 'Boston', 'MA', '01234', 'Invalid', 'Tester');
 EXCEPTION
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Test 9 Passed: CHECK constraint violation (Employee.Gender): ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('Test 8 Passed: CHECK constraint violation (Employee.Gender): ' || SQLERRM);
+END;
+/
+
+-- Test Case 9: NOT NULL constraint on Bike_Model
+BEGIN
+    -- Attempting to insert NULL for a required field should fail
+    INSERT INTO Bike_Model (Bike_Brand_Name, Bike_Model_Name)
+    VALUES (NULL, 'Test Model');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Test 9 Passed: NOT NULL constraint violation (Bike_Model.Bike_Brand_Name): ' || SQLERRM);
 END;
 /
 
@@ -332,6 +329,116 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Test 20 Failed with unexpected error: ' || SQLERRM);
+END;
+/
+
+-- Test Case 21: Validate Bike model integrity
+BEGIN
+    -- Attempting to delete a bike model that has bikes should fail
+    DELETE FROM Bike_Model 
+    WHERE Model_ID = (SELECT Model_ID FROM Bike WHERE ROWNUM = 1);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Test 21 Passed: Cannot delete bike model in use: ' || SQLERRM);
+END;
+/
+
+-- Test Case 22: Valid dock capacity update
+DECLARE
+    v_dock_id NUMBER;
+    v_current_capacity NUMBER;
+BEGIN
+    -- Get an existing dock
+    SELECT Dock_ID, Bike_Capacity INTO v_dock_id, v_current_capacity
+    FROM DOCKS
+    WHERE ROWNUM = 1;
+    
+    -- Update capacity to higher value
+    UPDATE DOCKS
+    SET Bike_Capacity = v_current_capacity + 5
+    WHERE Dock_ID = v_dock_id;
+    
+    DBMS_OUTPUT.PUT_LINE('Test 22 Passed: Successfully updated dock capacity');
+    
+    -- Reset to original value
+    UPDATE DOCKS
+    SET Bike_Capacity = v_current_capacity
+    WHERE Dock_ID = v_dock_id;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Test 22 Failed: ' || SQLERRM);
+END;
+/
+
+-- Test Case 23: Validate Maintenance record insertion with valid values
+DECLARE
+    v_maintenance_id NUMBER;
+BEGIN
+    -- Insert a valid maintenance record
+    INSERT INTO Maintenance (Bike_ID, Employee_ID, Maintenance_Description, Repair_Cost)
+    VALUES ((SELECT Bike_ID FROM Bike WHERE ROWNUM = 1),
+            (SELECT Employee_ID FROM Employee WHERE ROWNUM = 1),
+            'Regular maintenance check',
+            25.50)
+    RETURNING Maintenance_ID INTO v_maintenance_id;
+    
+    DBMS_OUTPUT.PUT_LINE('Test 23 Passed: Successfully inserted maintenance record with ID: ' || v_maintenance_id);
+    
+    -- Clean up test data
+    DELETE FROM Maintenance WHERE Maintenance_ID = v_maintenance_id;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Test 23 Failed: ' || SQLERRM);
+END;
+/
+
+-- Test Case 24: Check bike status update when rented
+DECLARE
+    v_bike_id NUMBER;
+    v_rental_id NUMBER;
+    v_transaction_id NUMBER;
+    v_status VARCHAR2(1);
+BEGIN
+    -- Get a bike that is available
+    SELECT Bike_ID INTO v_bike_id
+    FROM Bike
+    WHERE Rental_Status = 'A'
+    AND ROWNUM = 1;
+    
+    -- Create a transaction for this rental
+    INSERT INTO Payment_Details (Customer_ID, Payment_Method)
+    VALUES (1, 'Credit Card')
+    RETURNING Transaction_ID INTO v_transaction_id;
+    
+    -- Create a rental for this bike
+    INSERT INTO Rental (Customer_ID, Bike_ID, Transaction_ID, Start_Dock_ID, End_Dock_ID, Start_Date_Time, End_Date_Time)
+    VALUES (1, v_bike_id, v_transaction_id,
+            (SELECT Dock_ID FROM DOCKS WHERE ROWNUM = 1),
+            (SELECT Dock_ID FROM DOCKS WHERE ROWNUM = 1),
+            SYSDATE,
+            SYSDATE + 1)
+    RETURNING Rental_ID INTO v_rental_id;
+    
+    -- Check if bike status was updated to Rented
+    SELECT Rental_Status INTO v_status
+    FROM Bike
+    WHERE Bike_ID = v_bike_id;
+    
+    IF v_status = 'R' THEN
+        DBMS_OUTPUT.PUT_LINE('Test 24 Passed: Bike status correctly updated to Rented');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Test 24 Failed: Bike status not updated. Expected: R, Got: ' || v_status);
+    END IF;
+    
+    -- Clean up test data
+    DELETE FROM Rental WHERE Rental_ID = v_rental_id;
+    DELETE FROM Payment_Details WHERE Transaction_ID = v_transaction_id;
+    
+    -- Reset bike status
+    UPDATE Bike SET Rental_Status = 'A' WHERE Bike_ID = v_bike_id;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Test 24 Failed with unexpected error: ' || SQLERRM);
 END;
 /
 
