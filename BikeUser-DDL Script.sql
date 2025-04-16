@@ -114,6 +114,19 @@ CREATE TABLE Customer (
     CONSTRAINT cust_pk PRIMARY KEY (Customer_ID)
 );
 
+CREATE OR REPLACE FUNCTION hash_password(p_password VARCHAR2)
+RETURN VARCHAR2
+IS
+    v_hash RAW(32); -- 256-bit = 32 bytes
+BEGIN
+    v_hash := DBMS_CRYPTO.HASH(
+        UTL_I18N.STRING_TO_RAW(p_password, 'AL32UTF8'),
+        DBMS_CRYPTO.HASH_SH256
+    );
+    RETURN RAWTOHEX(v_hash);
+END;
+/
+
 COMMENT ON COLUMN Customer.Customer_ID IS 'Primary Key for Customer';
 COMMENT ON COLUMN Customer.First_Name IS 'First Name of Customer';
 COMMENT ON COLUMN Customer.Last_Name IS 'Last Name of Customer';
