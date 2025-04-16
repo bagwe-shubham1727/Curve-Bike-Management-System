@@ -73,10 +73,4 @@ BEGIN
             NULL;
     END;
     
-    BEGIN
-        EXECUTE IMMEDIATE 'GRANT EXECUTE ON DBMS_CRYPTO TO BikeUser';
-    EXCEPTION
-        WHEN OTHERS THEN
-            NULL; 
-    END;
 END;
