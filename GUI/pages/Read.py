@@ -223,7 +223,7 @@ option = st.selectbox("Select a table", ("Select", "Accessory", "Bike", "Custome
 
 if option == "Accessory":
     read_accessory()
-    itemid = st.number_input("Enter Item ID to read:", min_value=1001)
+    itemid = st.text_input("Enter Item ID to read:")
     if st.button("View Accessory"):
         read_accessory_id(itemid)
 
