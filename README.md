@@ -34,14 +34,18 @@ This project involves setting up a database environment with specific user permi
 4. **Run `BikeUser-DML Script.sql`**
    - This script inserts data into tables. (Use BikeUser)
 
-5. **Run `Admin-Create Other User roles.sql`**
+5. **Run `BikeUser-Run Package Files`**
+   - This script inserts packages for the tables. (Use BikeUser)
+
+6. **Run `Admin-Create Other User roles.sql`**
    - This script create other users and grants then create session and create view permissions. (Use Admin User)
 
-6. **Run `BikeUser-Grant DataViewerUser.sql`**
+7. **Run `BikeUser-Grant DataViewerUser.sql`**
    - This script grants the neccessary role-specific permissions to the specific user role. (Use BikeUser)
 
-7. **Run `DataViewerUser - Views`**
+8. **Run `DataViewerUser - Views`**
    - This script creates the role-specific views. (Use DataViewer User)
+
 
 ## Roles
 
