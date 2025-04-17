@@ -15,7 +15,6 @@ SELECT * FROM Most_Used_Payment_Methods;
 ------------------------------------------------
 --Get Total Rentend Bikes by Customer
 
-
 CREATE OR REPLACE VIEW Total_Rented_Bikes_By_Customer AS
 SELECT 
     c.Customer_ID,
@@ -90,3 +89,37 @@ GROUP BY
 
 SELECT * FROM Bike_Maintenance_Cost
 ORDER BY Total_Repair_Cost DESC;
+
+---------------------------------------------------------
+-- Create view for Bike with maximum number of accessories
+CREATE OR REPLACE VIEW Bike_Accessory_Count AS
+SELECT 
+    b.Bike_ID,
+    bm.Bike_Model_Name,
+    COUNT(ba.Item_ID) AS Accessory_Count
+FROM 
+    Bike b
+JOIN 
+    Bike_Model bm ON b.Model_ID = bm.Model_ID
+LEFT JOIN 
+    Bike_Accessory ba ON b.Bike_ID = ba.Bike_ID
+GROUP BY 
+    b.Bike_ID, bm.Bike_Model_Name;
+    
+    
+CREATE OR REPLACE VIEW Most_Accessorized_Bike AS
+SELECT 
+    bac.Bike_ID,
+    bac.Bike_Model_Name,
+    bac.Accessory_Count
+FROM 
+    Bike_Accessory_Count bac
+WHERE 
+    bac.Accessory_Count = (
+        SELECT 
+            MAX(Accessory_Count) 
+        FROM 
+            Bike_Accessory_Count
+    );
+
+SELECT * FROM Most_Accessorized_Bike;
