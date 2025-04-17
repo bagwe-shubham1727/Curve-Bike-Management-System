@@ -145,6 +145,10 @@ CREATE OR REPLACE PACKAGE BODY bike_rental_mgmt_pkg AS
         IF v_rental_status = 'Y' THEN
             RAISE_APPLICATION_ERROR(-20010, 'The selected bike is already rented.');
         END IF;
+        
+        IF v_rental_status = 'M' THEN
+            RAISE_APPLICATION_ERROR(-20015, 'The selected bike is in maintenance.');
+        END IF;
 
         -- Update bike rental status to Y before processing rental
         UPDATE bike

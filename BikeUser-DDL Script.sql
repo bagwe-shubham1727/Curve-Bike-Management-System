@@ -272,7 +272,7 @@ CREATE TABLE Bike (
     Bike_ID NUMBER GENERATED ALWAYS AS IDENTITY
         START WITH 6000 INCREMENT BY 1 NOCACHE NOCYCLE, -- Unique identifier for each bike
     Current_Location VARCHAR2(50), -- Current location of the bike
-    Rental_Status CHAR(1) DEFAULT 'N' NOT NULL CHECK (Rental_Status IN ('Y', 'N')),  -- 'Y' = Rented, 'N' = Available
+    Rental_Status CHAR(1) DEFAULT 'N' NOT NULL CHECK (Rental_Status IN ('Y', 'N', 'M')),  -- 'Y' = Rented, 'N' = Available, 'M' = Maintenance
     Dock_ID NUMBER NOT NULL, -- Foreign key to Docks table
     Model_ID NUMBER NOT NULL,  -- Foreign key to Bike_Model table
 
@@ -287,7 +287,7 @@ CREATE TABLE Bike (
 
 COMMENT ON COLUMN Bike.Bike_ID IS 'Primary key for Bike';
 COMMENT ON COLUMN Bike.Current_Location IS 'Current location of the bike';
-COMMENT ON COLUMN Bike.Rental_Status IS 'Rental status of the bike (Y/N)';
+COMMENT ON COLUMN Bike.Rental_Status IS 'Rental status of the bike (Y/N/M)';
 COMMENT ON COLUMN Bike.Dock_ID IS 'Foreign key referencing Docks';
 COMMENT ON COLUMN Bike.Model_ID IS 'Foreign key referencing Bike_Model';
 
