@@ -98,11 +98,11 @@ SELECT
     bm.Bike_Model_Name,
     COUNT(ba.Item_ID) AS Accessory_Count
 FROM 
-    Bike b
+    BikeUser.Bike b
 JOIN 
-    Bike_Model bm ON b.Model_ID = bm.Model_ID
+    BikeUser.Bike_Model bm ON b.Model_ID = bm.Model_ID
 LEFT JOIN 
-    Bike_Accessory ba ON b.Bike_ID = ba.Bike_ID
+    BikeUser.Bike_Accessory ba ON b.Bike_ID = ba.Bike_ID
 GROUP BY 
     b.Bike_ID, bm.Bike_Model_Name;
     
