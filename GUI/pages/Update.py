@@ -60,8 +60,8 @@ def update_employee(employee_id, emp_fname, emp_lname, emp_email, emp_phone, emp
 option = st.selectbox("Select a table", ("Select", "Accessory", "Bike", "Customer", "Dock", "Employee"))
 
 if option == "Accessory":
-    itemid = st.number_input("Enter Item ID to update:", min_value=1001)
-    itemname = st.text_input("Item Name")
+    itemid = st.number_input("Enter Item ID to update:")
+    itemname = st.text_input("Item Name", )
     itemcost = st.number_input("Item Cost")
     itemcount = st.number_input("Item Count", min_value=0)
     if st.button("Update Accessory"):
