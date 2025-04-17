@@ -37,20 +37,20 @@ This project involves setting up a database environment with specific user permi
 5. **Run `Admin-Create Other User roles.sql`**
    - This script create other users and grants then create session and create view permissions. (Use Admin User)
 
-6. **Run `BikeUser-Grant DataViewerUser.sql/BikeUser-Grant_QualityAssuranceUser/BikeUser-GrantCustomerUser/BikeUser-GrantOperationsManager`**
+6. **Run `BikeUser-Grant DataViewerUser.sql`**
    - This script grants the neccessary role-specific permissions to the specific user role. (Use BikeUser)
 
-7. **Run `DataViewerUser - Views/Operations_Manager_Views/QualityAssuranceUser-Views`**
-   - This script creates the role-specific views. (Use Designated User)
+7. **Run `DataViewerUser - Views`**
+   - This script creates the role-specific views. (Use DataViewer User)
 
 ## Roles
 
 Admin role - System Admin
 App Admin role - BikeUser
 Business Analyst role - DataViewerUser
-User of App - CustomerUser
-Operations Manager - OperationsManagerUser
-Quality Assurance Employee - QualityAssuranceUser
+
+## Files for Presentation (Not to be run)
+Bike_Maintenance_Test case.sql Customer_PKG_Test_Case.sql DBMS_Scheduler.sql Rental_PKG_Test_Case.sql Reports.sql Testcases.sql
 
 ### Notes
 
